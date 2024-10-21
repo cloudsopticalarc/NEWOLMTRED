@@ -1,15 +1,20 @@
 package com.spring.jwt.jwt.impl;
 
+
+import com.spring.jwt.entity.User;
 import com.spring.jwt.exception.BaseException;
 import com.spring.jwt.jwt.JwtConfig;
 import com.spring.jwt.jwt.JwtService;
+
+import com.spring.jwt.repository.UserRepository;
 import com.spring.jwt.security.UserDetailsCustom;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,17 +27,28 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+
 @Slf4j
 public class JwtServiceImpl implements JwtService {
+    private final UserRepository userRepository;
 
     private final JwtConfig jwtConfig;
 
+
     private final UserDetailsService userDetailsService;
+
+    @Autowired
+    public JwtServiceImpl(@Lazy JwtConfig jwtConfig, UserDetailsService userDetailsService, 
+                          UserRepository userRepository) {
+        this.jwtConfig = jwtConfig;
+        this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
+    }
 
 
     @Override
@@ -95,6 +111,7 @@ public class JwtServiceImpl implements JwtService {
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
 
     @Override
