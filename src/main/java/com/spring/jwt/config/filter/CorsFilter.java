@@ -16,15 +16,28 @@ public class CorsFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        // Set CORS headers
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", getAllowOrigin(httpServletRequest));
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+
+        // Handle OPTIONS requests (preflight requests)
         if (httpServletRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
             httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         } else {
             chain.doFilter(request, response);
         }
+    }
+
+    // Method to get the allowed origin dynamically
+    private String getAllowOrigin(HttpServletRequest request) {
+        String origin = request.getHeader("Origin");
+        if (origin != null) {
+            // You can add additional logic here to validate the origin
+            return origin;
+        }
+        return "*"; // Default to "*" if no origin is specified
     }
 
     @Override

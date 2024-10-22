@@ -137,6 +137,7 @@ public class AppConfig {
                 config.setMaxAge(3600L);
                 return config;
             }
+
         };
     }
     private List<String> getAllowedOrigins() {
