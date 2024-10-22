@@ -29,6 +29,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -128,7 +129,7 @@ public class AppConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(Collections.singletonList("*"));
+                config.setAllowedOrigins(getAllowedOrigins());
                 config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowCredentials(true);
                 config.setAllowedHeaders(Collections.singletonList("*"));
@@ -137,6 +138,9 @@ public class AppConfig {
                 return config;
             }
         };
+    }
+    private List<String> getAllowedOrigins() {
+        return Arrays.asList("http://localhost:5173", "https://color-tredo.vercel.app/");
     }
 
 
