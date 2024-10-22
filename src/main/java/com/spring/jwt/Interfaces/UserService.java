@@ -7,6 +7,7 @@ import com.spring.jwt.exception.PageNotFoundException;
 import com.spring.jwt.exception.UserNotFoundExceptions;
 import com.spring.jwt.utils.BaseResponseDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserService {
@@ -16,9 +17,9 @@ public interface UserService {
 
     public String recharge(String postUserId, String getUserId,Float amount);
 
-    String withdraw(String postUserId, String getUserId, Float amount);
+    Object withdraw(String postUserId, String getUserId, Float amount);
 
-    List<WithdrawTransaction> userNotificationList(String getUserId);
+    Object userNotificationList(String getUserId);
 
     String withdrawApprovalUserSide(Integer withdrawID);
 
@@ -26,5 +27,10 @@ public interface UserService {
 
     User getByUserId(Integer userID);
 
-    Boolean getStatusAfterWithdawProcced(String userRId);
+    Boolean getStatusAfterWithdawProcced(String userRId, LocalDateTime localDateTime);
+
+    Object getWithdraw(String referanceId);
+    Object getRecharge(String referanceId);
+    Object getRechargeAdminSide(String referanceId);
+    Object getWithdrawAdmin(String referanceId);
 }

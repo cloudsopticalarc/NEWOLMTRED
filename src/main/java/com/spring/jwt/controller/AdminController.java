@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -52,8 +53,8 @@ public class AdminController {
     @PatchMapping("/withdrawForAdminside")
     public ResponseEntity<?> withdraw(@RequestParam String postUserId,@RequestParam String getUserId,@RequestParam Float amount){
         try{
-            String message = userService.withdraw(postUserId,getUserId,amount);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto("success",message));
+            Object message = userService.withdraw(postUserId,getUserId,amount);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success",message));
 
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto("unsuccess",e.getMessage()));
@@ -65,7 +66,7 @@ public class AdminController {
     @GetMapping("/userNotificationList")
     public ResponseEntity<?> userNotificationList(@RequestParam String getUserId ){
         try{
-            List<WithdrawTransaction> withdrawTransaction  = userService.userNotificationList(getUserId);
+            Object withdrawTransaction  = userService.userNotificationList(getUserId);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success",withdrawTransaction));
 
         }catch (RuntimeException e){
@@ -87,9 +88,9 @@ public class AdminController {
         }
     }
     @GetMapping("/getStatusAfterWithdawProcced")
-    public ResponseEntity<?> getStatusAfterWithdawProcced(@RequestParam String User_R_Id){
+    public ResponseEntity<?> getStatusAfterWithdawProcced(@RequestParam String User_R_Id, @RequestParam LocalDateTime localDateTime){
         try{
-            Boolean response = userService.getStatusAfterWithdawProcced(User_R_Id);
+            Boolean response = userService.getStatusAfterWithdawProcced(User_R_Id,localDateTime);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success",response));
 
         }catch (RuntimeException e){

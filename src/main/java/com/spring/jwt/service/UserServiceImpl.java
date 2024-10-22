@@ -19,6 +19,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -112,8 +113,6 @@ public class UserServiceImpl implements UserService {
     public User getByReferenceIdAdminRecharge(String referenceId) {
         User user = userRepository.findByReferenceId(referenceId).orElseThrow(()->new RuntimeException("reference name not found by id"));
         return user;
-
-
     }
 
     @Override
@@ -176,18 +175,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String withdraw(String postUserId, String getUserId, Float amount) {
+    public Object withdraw(String postUserId, String getUserId, Float amount) {
         User senderDetails = userRepository.findByReferenceId(postUserId).orElseThrow(()->new RuntimeException("post reference name not found by id"));
         User receiverDetails = userRepository.findByReferenceId(getUserId).orElseThrow(()->new RuntimeException("get reference name not found by id"));
+        LocalDateTime localDateTime = LocalDateTime.now();
 
         if(receiverDetails.getTotalBalnce() >= amount){
             Float transactionFees = amount*0.10f;
             Float totalBalanceAfterTransactionFees = amount-transactionFees;
 
 
+
             WithdrawTransaction withdrawTransaction = WithdrawTransaction.builder()
                     .transactionAmount(amount)
-                    .withdrawTransactionsDateAndTime(LocalDateTime.now())
+                    .withdrawTransactionsDateAndTime(localDateTime)
                     .rechargeSenderId(senderDetails.getReferenceId())
                     .withdrawReceiverId(receiverDetails.getReferenceId())
                     .withdrawTransactionsStatus(false)
@@ -200,17 +201,30 @@ public class UserServiceImpl implements UserService {
 
             withdrawRepo.save(withdrawTransaction);
 
+
         }else if (receiverDetails.getTotalBalnce() < amount){
             throw new RuntimeException("withdraw unsuccess check your user wallet balance :: USERID => "+getUserId );
         }
-        return "withdraw permission proceed";
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String formatDateTime = localDateTime.format(format);
+        System.out.println(localDateTime);
+        return new WithdrawRecponceDto("success","withdraw permission proceed",formatDateTime);
     }
 
     @Override
-    public List<WithdrawTransaction> userNotificationList(String getUserId) {
+    public Object userNotificationList(String getUserId) {
 //        User receiverDetails = userRepository.findByReferenceId(getUserId).orElseThrow(()->new RuntimeException("get reference name not found by id"));
 
-        return withdrawRepo.findbyWithdrawStatus("PENDING",getUserId);
+        List<WithdrawTransaction> list = withdrawRepo.findbyWithdrawStatusAndUser("PENDING",getUserId);
+        Integer size = list.size();
+
+        if (size>1){
+            WithdrawTransaction withdrawTransaction = list.get(size-1);
+            list.remove(size-1);
+            withdrawRepo.deleteAll(list);
+            return withdrawTransaction;
+        }
+        return list.get(list.size()-1);
     }
 
     @Override
@@ -227,13 +241,13 @@ public class UserServiceImpl implements UserService {
 
             senderDetails.setTotalBalnce((senderDetails.getTotalBalnce())+((withdrawTransactionDetails.getTransactionAmount())-(withdrawTransactionDetails.getTransactionFees()-transactionFees)));
 
-          if (receiverDetails.getTotalBalnce()<= withdrawTransactionDetails.getTransactionAmount()) {
+
               receiverDetails.setTotalBalnce((receiverDetails.getTotalBalnce()) - (withdrawTransactionDetails.getTransactionAmount()));
-          }else throw new RuntimeException("check your balance for withdraw");
 
 
 
-            withdrawTransactionDetails.setWithdrawTransactionsDateAndTime(LocalDateTime.now());
+
+            withdrawTransactionDetails.setWithdrawTransactionsDateAndTime(withdrawTransactionDetails.getWithdrawTransactionsDateAndTime());
             withdrawTransactionDetails.setWithdrawTransactionsStatus(true);
             withdrawTransactionDetails.setWithdrowStatus("SUCCESS");
             Profit profit = Profit.builder()
@@ -271,19 +285,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean getStatusAfterWithdawProcced(String userRId) {
-        Boolean b = false;
-        List<WithdrawTransaction> withdrawTransactionList = withdrawRepo.findbyWithdrawStatus(userRId,"SUCCESS");
+    public Boolean getStatusAfterWithdawProcced(String userRId,LocalDateTime localDateTime) {
 
-        if (withdrawTransactionList.size() == 1 && (withdrawTransactionList.get(1).getWithdrawTransactionsStatus()).equals("SUCCESS")){
-            b = true;
-        }else if (withdrawTransactionList.size()>1){
-             withdrawRepo.deleteAll(withdrawTransactionList);
+        Boolean b = false;
+        WithdrawTransaction withdrawTransactionList = withdrawRepo.findbyWithdrawStatus(userRId,localDateTime).orElseThrow(()->new RuntimeException("Given time not valid"));
+//        for (WithdrawTransaction withdrawTransaction:withdrawTransactionList){
+//            System.out.println(withdrawTransaction);
+//        }
+        if (withdrawTransactionList.getWithdrowStatus().equals("SUCCESS")){ b = true;}
+        else if (withdrawTransactionList.getWithdrowStatus().equals("PENDING")){
+            b = false;
+            withdrawRepo.deleteById(withdrawTransactionList.getWithdrawTransaction_id());
         }
+
         return b;
     }
 
-
+    @Override
+    public Object getWithdraw(String referanceId) {
+        List<WithdrawTransaction> withdrawTransactionList = withdrawRepo.findByReceiverID(referanceId);
+        if (withdrawTransactionList.size()<0)throw new RuntimeException("invalid referance id");
+        return withdrawTransactionList;
+    }
+    @Override
+    public Object getWithdrawAdmin(String referanceId) {
+        List<WithdrawTransaction> withdrawTransactionList = withdrawRepo.findByAdminSenderID(referanceId);
+        if (withdrawTransactionList.size()<0)throw new RuntimeException("invalid referance id");
+        return withdrawTransactionList;
+    }
+    @Override
+    public Object getRecharge(String referanceId) {
+        List<RechargeTransactions> rechargeTransactions = rechargeTransactionRepo.findByReceiverID(referanceId);
+        if (rechargeTransactions.size()<0)throw new RuntimeException("invalid referance id");
+        return rechargeTransactions;
+    }
+    @Override
+    public Object getRechargeAdminSide(String referanceId) {
+        List<RechargeTransactions> rechargeTransactions = rechargeTransactionRepo.findByAdminSenderID(referanceId);
+        if (rechargeTransactions.size()<0)throw new RuntimeException("invalid referance id");
+        return rechargeTransactions;
+    }
     private void validateAccount(RegisterDto registerDto) {
         // validate null data
         if (ObjectUtils.isEmpty(registerDto)) {

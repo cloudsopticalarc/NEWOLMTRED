@@ -79,8 +79,7 @@ public class AppConfig {
         AuthenticationManager manager = builder.build();
 
         http
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
+                .cors().disable()
 
                 .csrf().disable()
                 .formLogin().disable()
