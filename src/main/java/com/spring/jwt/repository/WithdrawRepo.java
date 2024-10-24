@@ -30,4 +30,9 @@ public interface WithdrawRepo extends JpaRepository<WithdrawTransaction,Integer>
 
     @Query("SELECT wt FROM WithdrawTransaction wt WHERE wt.rechargeSenderId = :rechargeSenderId" )
     List<WithdrawTransaction> findByAdminSenderID(@Param("rechargeSenderId") String rechargeSenderId);
+
+
+    @Query("SELECT wt FROM WithdrawTransaction wt WHERE wt.withdrawReceiverId = :withdrawReceiverId AND wt.transactionIdGenerator = :transactionIdGenerator")
+    Optional<WithdrawTransaction> findbyTransactionIdStatus( @Param("withdrawReceiverId") String withdrawReceiverId,@Param("transactionIdGenerator") String transactionIdGenerator);
+
 }

@@ -88,9 +88,9 @@ public class AdminController {
         }
     }
     @GetMapping("/getStatusAfterWithdawProcced")
-    public ResponseEntity<?> getStatusAfterWithdawProcced(@RequestParam String User_R_Id, @RequestParam LocalDateTime localDateTime){
+    public ResponseEntity<?> getStatusAfterWithdawProcced(@RequestParam String User_R_Id, @RequestParam String transactionIdGenerator){
         try{
-            Boolean response = userService.getStatusAfterWithdawProcced(User_R_Id,localDateTime);
+            Boolean response = userService.getStatusAfterWithdawProcced(User_R_Id,transactionIdGenerator);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success",response));
 
         }catch (RuntimeException e){

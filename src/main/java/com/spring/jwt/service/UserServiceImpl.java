@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
         User senderDetails = userRepository.findByReferenceId(postUserId).orElseThrow(()->new RuntimeException("post reference name not found by id"));
         User receiverDetails = userRepository.findByReferenceId(getUserId).orElseThrow(()->new RuntimeException("get reference name not found by id"));
         LocalDateTime localDateTime = LocalDateTime.now();
-
+        String UUID = generateTransactionId();
         if(receiverDetails.getTotalBalnce() >= amount){
             Float transactionFees = amount*0.10f;
             Float totalBalanceAfterTransactionFees = amount-transactionFees;
@@ -193,6 +193,7 @@ public class UserServiceImpl implements UserService {
                     .withdrawReceiverId(receiverDetails.getReferenceId())
                     .withdrawTransactionsStatus(false)
                     .transactionFees(transactionFees)
+                    .transactionIdGenerator(UUID)
                     .withdrowStatus("PENDING")
                     .build();
 
@@ -205,10 +206,8 @@ public class UserServiceImpl implements UserService {
         }else if (receiverDetails.getTotalBalnce() < amount){
             throw new RuntimeException("withdraw unsuccess check your user wallet balance :: USERID => "+getUserId );
         }
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String formatDateTime = localDateTime.format(format);
-        System.out.println(localDateTime);
-        return new WithdrawRecponceDto("success","withdraw permission proceed",formatDateTime);
+
+        return new WithdrawRecponceDto("success","withdraw permission proceed",UUID);
     }
 
     @Override
@@ -285,13 +284,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean getStatusAfterWithdawProcced(String userRId,LocalDateTime localDateTime) {
+    public Boolean getStatusAfterWithdawProcced(String userRId,String transactionIdGenerator) {
 
         Boolean b = false;
-        WithdrawTransaction withdrawTransactionList = withdrawRepo.findbyWithdrawStatus(userRId,localDateTime).orElseThrow(()->new RuntimeException("Given time not valid"));
+
+
+        WithdrawTransaction withdrawTransactionList = withdrawRepo.findbyTransactionIdStatus(userRId,transactionIdGenerator).orElseThrow(()->new RuntimeException("Given time not valid"));
 //        for (WithdrawTransaction withdrawTransaction:withdrawTransactionList){
 //            System.out.println(withdrawTransaction);
 //        }
+
         if (withdrawTransactionList.getWithdrowStatus().equals("SUCCESS")){ b = true;}
         else if (withdrawTransactionList.getWithdrowStatus().equals("PENDING")){
             b = false;
@@ -299,6 +301,9 @@ public class UserServiceImpl implements UserService {
         }
 
         return b;
+    }
+    public String generateTransactionId() {
+        return UUID.randomUUID().toString();
     }
 
     @Override

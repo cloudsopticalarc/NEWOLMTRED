@@ -12,41 +12,41 @@ import java.util.Optional;
 public interface GameColorNumberRepo extends JpaRepository<GameColorNumber, Integer> {
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.black = :status",nativeQuery = false)
-    Integer finByBlack(@Param("status") boolean status);
+    Integer finByBlack(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.red = :status",nativeQuery = false)
-    Integer findByRed(@Param("status") boolean status);
+    Integer findByRed(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.yellow = :status",nativeQuery = false)
-    Integer findByYellow(@Param("status") boolean status);
+    Integer findByYellow(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.zero = :status",nativeQuery = false)
-    Integer findByZero(@Param("status") boolean status);
+    Integer findByZero(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.one = :status",nativeQuery = false)
-    Integer findByOne(@Param("status") boolean status);
+    Integer findByOne(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.two = :status",nativeQuery = false)
-    Integer findByTwo(@Param("status") boolean status);
+    Integer findByTwo(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.three = :status",nativeQuery = false)
-    Integer findByThree(@Param("status") boolean status);
+    Integer findByThree(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.four = :status",nativeQuery = false)
-    Integer findByFour(@Param("status") boolean status);
+    Integer findByFour(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.five = :status",nativeQuery = false)
-    Integer findByFive(@Param("status") boolean status);
+    Integer findByFive(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.six = :status",nativeQuery = false)
-    Integer findBySix(@Param("status") boolean status);
+    Integer findBySix(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.seven = :status",nativeQuery = false)
-    Integer findBySeven(@Param("status") boolean status);
+    Integer findBySeven(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.eight = :status",nativeQuery = false)
-    Integer findByEight(@Param("status") boolean status);
+    Integer findByEight(@Param("status") Boolean status);
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.nine = :status",nativeQuery = false)
-    Integer findByNine(@Param("status") boolean status);
+    Integer findByNine(@Param("status") Boolean status);
 }

@@ -27,7 +27,7 @@ public interface UserService {
 
     User getByUserId(Integer userID);
 
-    Boolean getStatusAfterWithdawProcced(String userRId, LocalDateTime localDateTime);
+    Boolean getStatusAfterWithdawProcced(String userRId, String transactionIdGenerator);
 
     Object getWithdraw(String referanceId);
     Object getRecharge(String referanceId);

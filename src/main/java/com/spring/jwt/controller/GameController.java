@@ -118,7 +118,8 @@ public class GameController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto("unsuccess", e.getMessage()));
         }
-    }  @GetMapping("/getRecharge")
+    }
+    @GetMapping("/getRecharge")
     public ResponseEntity<?> getRecharge(@RequestParam String referanceId) {
         try {
             Object chartTrend = userService.getRecharge(referanceId);

@@ -181,25 +181,27 @@ public class GameImp implements IGame {
 
     @Override
     public String makeWinNumber() {
-            Integer black = gameColorNumberRepo.finByBlack(true);
-            Integer red =gameColorNumberRepo.findByRed(true);
-            Integer yellow =gameColorNumberRepo.findByYellow(true);
-            Integer zero =gameColorNumberRepo.findByZero(true);
-            Integer one =gameColorNumberRepo.findByOne(true);
-            Integer two =gameColorNumberRepo.findByTwo(true);
-            Integer three =gameColorNumberRepo.findByThree(true);
-            Integer four =gameColorNumberRepo.findByFour(true);
-            Integer five =gameColorNumberRepo.findByFive(true);
-            Integer six =gameColorNumberRepo.findBySix(true);
-            Integer seven =gameColorNumberRepo.findBySeven(true);
-            Integer eight =gameColorNumberRepo.findByEight(true);
-            Integer nine =gameColorNumberRepo.findByNine(true);
-            Integer finalWonValue = -1;
+        Integer black = gameColorNumberRepo.finByBlack(true);
+        Integer red =gameColorNumberRepo.findByRed(true);
+        Integer yellow =gameColorNumberRepo.findByYellow(true);
+        Integer zero =gameColorNumberRepo.findByZero(true);
+        Integer one =gameColorNumberRepo.findByOne(true);
+        Integer two =gameColorNumberRepo.findByTwo(true);
+        Integer three =gameColorNumberRepo.findByThree(true);
+        Integer four =gameColorNumberRepo.findByFour(true);
+        Integer five =gameColorNumberRepo.findByFive(true);
+        Integer six =gameColorNumberRepo.findBySix(true);
+        Integer seven =gameColorNumberRepo.findBySeven(true);
+        Integer eight =gameColorNumberRepo.findByEight(true);
+        Integer nine =gameColorNumberRepo.findByNine(true);
+        Integer finalWonValue = -1;
 
-            System.out.println(nine);
-            System.out.println(black +" "+ red +" "+yellow +" "+ zero +" "+one +" "+ two +" "+three +" "+ four +" "+five +" "+ six +" "+ seven+" "+ eight +" "+nine);
+        System.out.println(nine);
+        System.out.println(black +" "+ red +" "+yellow +" "+ zero +" "+one +" "+ two +" "+three +" "+ four +" "+five +" "+ six +" "+ seven+" "+ eight +" "+nine);
+
 
             List<Integer> listOfNumber = new ArrayList<>();
+
             Map<Integer,Integer> mapOfNumbers = new HashMap<>();
             List<Integer> listOfColor = new ArrayList<>();
             Map<Integer,String> mapOfColor = new HashMap<>();
@@ -283,6 +285,7 @@ public class GameImp implements IGame {
                 Integer randomValue = random.nextInt(2);
                 if (randomValue == 0){
                     finalWonValue = 0;
+
                 }else {
                     finalWonValue = 5;
                 }

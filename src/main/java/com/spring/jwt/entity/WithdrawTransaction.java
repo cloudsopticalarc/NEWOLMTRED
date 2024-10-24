@@ -39,6 +39,9 @@ public class WithdrawTransaction {
     @Column(name = "withdrowStatus", nullable = false, columnDefinition = "VARCHAR(255)")
     private String withdrowStatus;
 
+    @Column(name = "TransactionIdGenerator ", nullable = false, columnDefinition = "VARCHAR(255)")
+    private String transactionIdGenerator ;
+
     @Column(name = "TransactionAmount", nullable = false, columnDefinition = "FLOAT")
     private Float transactionAmount;
 }
