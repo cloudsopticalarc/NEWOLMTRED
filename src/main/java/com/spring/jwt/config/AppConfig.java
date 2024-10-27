@@ -106,6 +106,8 @@ public class AppConfig {
                 .requestMatchers("/userGame/**").permitAll()
                 .requestMatchers("/makeWinNumber/**").permitAll()
                 .requestMatchers("/user/**").permitAll()
+                .requestMatchers("/superAdmin/**").permitAll()
+
                 .anyRequest().authenticated()
                 .and()
                 .authenticationManager(manager)

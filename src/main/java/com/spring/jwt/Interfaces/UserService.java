@@ -33,4 +33,6 @@ public interface UserService {
     Object getRecharge(String referanceId);
     Object getRechargeAdminSide(String referanceId);
     Object getWithdrawAdmin(String referanceId);
+
+    Object getProfit();
 }

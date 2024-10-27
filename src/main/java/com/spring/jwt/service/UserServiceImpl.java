@@ -318,6 +318,12 @@ public class UserServiceImpl implements UserService {
         if (withdrawTransactionList.size()<0)throw new RuntimeException("invalid referance id");
         return withdrawTransactionList;
     }
+
+    @Override
+    public Object getProfit() {
+        return profitRepo.findAll();
+    }
+
     @Override
     public Object getRecharge(String referanceId) {
         List<RechargeTransactions> rechargeTransactions = rechargeTransactionRepo.findByReceiverID(referanceId);
