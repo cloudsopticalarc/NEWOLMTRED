@@ -185,10 +185,17 @@ public class GameImp implements IGame {
 
     @Override
     public Object getLivePeriodNo() {
-        List<ChartTrend> listOFChartTrend = chartTrendRepo.findAll();
-        Long size = (long) listOFChartTrend.size();
-        return new ResponseSizeObjectDto(size,listOFChartTrend);
+        try {
 
+            ChartTrend chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_").orElseThrow(()->new RuntimeException("invalid running status"));
+            return chartTrend;
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+
+        }
+
+        List<ChartTrend> listOFChartTrend = chartTrendRepo.findAll();
+        return listOFChartTrend.get(listOFChartTrend.size()-1);
     }
 
     @Override
