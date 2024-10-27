@@ -11,9 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface GameColorNumberRepo extends JpaRepository<GameColorNumber, Integer> {
-    @Query("SELECT gcn FROM GameColorNumber gcn WHERE gcn.userReferenceId = :userReferenceId AND gcn.period = :period AND gcn.winStatus = :winStatus")
+    @Query("SELECT gcn FROM GameColorNumber gcn WHERE gcn.userReferenceId = :userReferenceId AND gcn.winStatus = :winStatus")
     List<GameColorNumber> findByRefAndPeriodAndWinStatus(@Param("userReferenceId") String userReferenceId,
-                                                         @Param("period") String period,
                                                          @Param("winStatus") Boolean winStatus);
 
 

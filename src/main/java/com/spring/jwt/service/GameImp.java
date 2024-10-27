@@ -352,15 +352,15 @@ public class GameImp implements IGame {
     }
 
     @Override
-    public List<GameColorNumber> getOrderByUserRefIdDone(String referanceId, String period) {
-        List<GameColorNumber> gameColorNumbers =gameColorNumberRepo.findByRefAndPeriodAndWinStatus(referanceId,period,true);
+    public List<GameColorNumber> getOrderByUserRefIdDone(String referanceId) {
+        List<GameColorNumber> gameColorNumbers =gameColorNumberRepo.findByRefAndPeriodAndWinStatus(referanceId,true);
         if (gameColorNumbers.size()<=0)throw new RuntimeException("game Color Numbers not found by referance ID or period ");
         return gameColorNumbers;
     }
 
     @Override
-    public List<GameColorNumber> getOrderByUserRefIdRunning(String referanceId, String period) {
-        List<GameColorNumber> gameColorNumbers =gameColorNumberRepo.findByRefAndPeriodAndWinStatus(referanceId,period,false);
+    public List<GameColorNumber> getOrderByUserRefIdRunning(String referanceId) {
+        List<GameColorNumber> gameColorNumbers =gameColorNumberRepo.findByRefAndPeriodAndWinStatus(referanceId,false);
         if (gameColorNumbers.size()<=0)throw new RuntimeException("game Color Numbers not found by referance ID or period ");
         return gameColorNumbers;
     }

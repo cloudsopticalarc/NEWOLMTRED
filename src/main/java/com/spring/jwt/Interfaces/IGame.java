@@ -19,8 +19,8 @@ public interface IGame {
 
     Object getResult();
 
-    List<GameColorNumber> getOrderByUserRefIdDone(String referanceId, String period);
-    List<GameColorNumber> getOrderByUserRefIdRunning(String referanceId, String period);
+    List<GameColorNumber> getOrderByUserRefIdDone(String referanceId);
+    List<GameColorNumber> getOrderByUserRefIdRunning(String referanceId);
 
 }
 

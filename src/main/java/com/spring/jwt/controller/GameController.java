@@ -99,9 +99,9 @@ public class GameController {
         }
     }
     @GetMapping("/getOrderByUserRefIdDone")
-    public ResponseEntity<?> getOrderByUserRefIdDone(@RequestParam String referanceId ,@RequestParam String period) {
+    public ResponseEntity<?> getOrderByUserRefIdDone(@RequestParam String referanceId) {
         try {
-            List<GameColorNumber> chartTrend = iGame.getOrderByUserRefIdDone(referanceId,period);
+            List<GameColorNumber> chartTrend = iGame.getOrderByUserRefIdDone(referanceId);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success", chartTrend));
 
         } catch (RuntimeException e) {
@@ -111,9 +111,9 @@ public class GameController {
         }
     }
     @GetMapping("/getOrderByUserRefIdRunning")
-    public ResponseEntity<?> getOrderByUserRefIdRunning(@RequestParam String referanceId ,@RequestParam String period) {
+    public ResponseEntity<?> getOrderByUserRefIdRunning(@RequestParam String referanceId) {
         try {
-            List<GameColorNumber> chartTrend = iGame.getOrderByUserRefIdRunning(referanceId,period);
+            List<GameColorNumber> chartTrend = iGame.getOrderByUserRefIdRunning(referanceId);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success", chartTrend));
 
         } catch (RuntimeException e) {
