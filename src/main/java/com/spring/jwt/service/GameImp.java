@@ -346,9 +346,10 @@ public class GameImp implements IGame {
     @Override
     public Object getResult() {
         List<ChartTrend> chartTrends = chartTrendRepo.findByDoneStatus("_DONE_");
-        chartTrends.sort(Comparator.comparing(ChartTrend::getDateTime).reversed());
+        chartTrends.sort(Comparator.comparing(ChartTrend::getId).reversed());
+        List<ChartTrend> top50ChartTrends = chartTrends.size() > 50 ? chartTrends.subList(0, 50) : chartTrends;
 
-        return chartTrends;
+        return top50ChartTrends;
     }
 
     @Override
