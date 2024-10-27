@@ -12,6 +12,8 @@ public interface IGame {
     String saveChartTrend();
 
     String makeWinNumber();
+
+    Object getResult();
 }
 
 

@@ -343,6 +343,14 @@ public class GameImp implements IGame {
 
     }
 
+    @Override
+    public Object getResult() {
+        List<ChartTrend> chartTrends = chartTrendRepo.findByDoneStatus("_DONE_");
+        chartTrends.sort(Comparator.comparing(ChartTrend::getDateTime).reversed());
+
+        return chartTrends;
+    }
+
     private Integer getResultcolor(List<Integer> listOfColor,List<NumberDto> listOfColors) {
         Integer finalWonNumber = -1;
         for (NumberDto numberDto : listOfColors){

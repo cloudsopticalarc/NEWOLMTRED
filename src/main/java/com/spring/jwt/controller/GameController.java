@@ -71,10 +71,22 @@ public class GameController {
         }
     }
 
-    @PatchMapping("/getLivePeriodNo")
+    @GetMapping("/getLivePeriodNo")
     public ResponseEntity<?> getLivePeriodNo() {
         try {
             Object chartTrend = iGame.getLivePeriodNo();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success", chartTrend));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto("unsuccess", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto("unsuccess", e.getMessage()));
+        }
+    }
+    @GetMapping("/getResult")
+    public ResponseEntity<?> getResult() {
+        try {
+            Object chartTrend = iGame.getResult();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success", chartTrend));
 
         } catch (RuntimeException e) {
