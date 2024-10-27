@@ -1,11 +1,13 @@
 package com.spring.jwt.service;
 
 import com.spring.jwt.Interfaces.IGame;
+import com.spring.jwt.dto.NumberDto;
 import com.spring.jwt.dto.ResponceDto;
 import com.spring.jwt.dto.ResponseSizeObjectDto;
 import com.spring.jwt.entity.ChartTrend;
 import com.spring.jwt.entity.GameColorNumber;
 import com.spring.jwt.entity.User;
+import com.spring.jwt.entity.WinNumber;
 import com.spring.jwt.repository.ChartTrendRepo;
 import com.spring.jwt.repository.GameColorNumberRepo;
 import com.spring.jwt.repository.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -124,47 +127,56 @@ public class GameImp implements IGame {
 
     @Override
     public String saveChartTrend() {
+        LocalDateTime localDateTime = LocalDateTime.now();
 
-        List<ChartTrend> listOFChartTrend = chartTrendRepo.findAll();
-        if(listOFChartTrend.size() == 0){
-            Long i = 2000000000000L;
+        String pattern = "yyyyMMddHHmm"; // You can change this pattern as needed
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        String formattedDateTime = localDateTime.format(formatter);
+
+
+            Long i = Long.valueOf(formattedDateTime);
             ChartTrend chartTrend = ChartTrend.builder()
                     .runningStatus("_RUNNING_")
                     .period(i)
                     .wonNumber(-1)
+                    .wonColor(-1)
+                    .dateTime(LocalDateTime.now())
                     .build();
+
             chartTrendRepo.save(chartTrend);
-        }else {
 
-            Long i = (2000000000000L+listOFChartTrend.size())+1;
-
-
-            ChartTrend chartTrend = ChartTrend.builder()
-                    .runningStatus("_RUNNING_")
-                    .period(i)
-                    .wonNumber(-1)
-                    .build();
-            chartTrendRepo.save(chartTrend);
-        }
         return "saved chartTrend";
     }
 
 
 
     @Override
-    public String updateChartTrend(Integer wonNumber) {
+    public String updateChartTrend(Integer wonNumber,Integer wonColor) {
 
-        ChartTrend chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_").orElseThrow(()->new RuntimeException("chart treand details not found by id"));
-        chartTrend.setRunningStatus("_DONE_");
-        chartTrend.setWonNumber(wonNumber);
-        chartTrendRepo.save(chartTrend);
+        try {
+
+            ChartTrend chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_").orElseThrow(() -> new RuntimeException("chart treand details not found by id"));
+            chartTrend.setRunningStatus("_DONE_");
+            chartTrend.setWonNumber(wonNumber);
+            chartTrend.setWonColor(wonColor);
 
 
+            chartTrendRepo.save(chartTrend);
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        String pattern = "yyyyMMddHHmm"; // You can change this pattern as needed
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        String formattedDateTime = localDateTime.format(formatter);
 
         ChartTrend chartTrendNew = ChartTrend.builder()
                 .runningStatus("_RUNNING_")
-                .period(chartTrend.getPeriod()+1)
+                .period(Long.valueOf(formattedDateTime))
                 .wonNumber(-1)
+                .wonColor(-1)
+                .dateTime(LocalDateTime.now())
                 .build();
         chartTrendRepo.save(chartTrendNew);
         return "updated Chart Trend";
@@ -194,126 +206,255 @@ public class GameImp implements IGame {
         Integer seven =gameColorNumberRepo.findBySeven(true);
         Integer eight =gameColorNumberRepo.findByEight(true);
         Integer nine =gameColorNumberRepo.findByNine(true);
-        Integer finalWonValue = -1;
-
         System.out.println(nine);
         System.out.println(black +" "+ red +" "+yellow +" "+ zero +" "+one +" "+ two +" "+three +" "+ four +" "+five +" "+ six +" "+ seven+" "+ eight +" "+nine);
 
 
-            List<Integer> listOfNumber = new ArrayList<>();
-
-            Map<Integer,Integer> mapOfNumbers = new HashMap<>();
-            List<Integer> listOfColor = new ArrayList<>();
-            Map<Integer,String> mapOfColor = new HashMap<>();
-
-            if (yellow!=null) {
-                listOfColor.add(yellow);
-                mapOfColor.put(yellow,"_YELLOW_");
-            };
-            if (red!=null) {
-                listOfColor.add(red);
-                mapOfColor.put(red,"_RED_");
-
-            };
-            if (black!=null) {
-                listOfColor.add(black);
-                mapOfColor.put(black,"_BLACK_");
-
-            };
-            if (zero!=null) {
-                listOfNumber.add(zero);
-                mapOfNumbers.put(zero,0);
-            };
-            if (one!=null) {
-                listOfNumber.add(one);
-                mapOfNumbers.put(one,1);
-            };
-            if (two!=null) {
-                listOfNumber.add(two);
-                mapOfNumbers.put(two,2);
-            };
-            if (three!=null) {
-                listOfNumber.add(three);
-                mapOfNumbers.put(three,3);
-            };
-            if (four!=null) {
-                listOfNumber.add(four);
-                mapOfNumbers.put(four,4);
-            };
-            if (five!=null) {
-                listOfNumber.add(five);
-                mapOfNumbers.put(five,5);
-            };
-            if (six!=null) {
-                listOfNumber.add(six);
-                mapOfNumbers.put(six,6);
-            };
-            if (seven!=null) {
-                listOfNumber.add(seven);
-                mapOfNumbers.put(seven,7);
-            };
-            if (eight!=null) {
-                listOfNumber.add(eight);
-                mapOfNumbers.put(eight,8);
-            };
-            if (nine!=null) {
-                listOfNumber.add(nine);
-                mapOfNumbers.put(nine,9);
-            };
-            System.out.println(listOfNumber);
-            System.out.println(listOfColor);
-
-            Collections.sort(listOfNumber);
-            Collections.sort(listOfColor);
-
-            System.out.println(listOfNumber);
-            System.out.println(listOfColor);
-
-
-            System.out.println(listOfNumber.size());
-            Boolean selectZeroOrFiveNumber = false;
-            for (Integer i =0;i<listOfNumber.size()-1;i++){
-                if (listOfNumber.get(i).equals(listOfNumber.get(i+1))){
-                    selectZeroOrFiveNumber = true;
-                }else {
-                    selectZeroOrFiveNumber = false;
-                }
-            }
-            if (selectZeroOrFiveNumber){
-                Random random = new Random();
-
-                Integer randomValue = random.nextInt(2);
-                if (randomValue == 0){
-                    finalWonValue = 0;
-
-                }else {
-                    finalWonValue = 5;
-                }
-                return String.valueOf(finalWonValue);
-            }
-
-            Integer result = getResultNumber(listOfNumber,listOfColor);
+        List<Integer> listOfNumber = new ArrayList<>();
+        List<Integer> listOfColor = new ArrayList<>();
+        List<NumberDto> listOfNumbers = new ArrayList<>();
+        List<NumberDto> listOfColors = new ArrayList<>();
+        NumberDto numberDto;
 
 
 
+//      _YELLOW_  == 101
+//        _RED_   == 102
+//        _BLACK_ == 103
+        if (yellow!=null) {
+            listOfColor.add(yellow);
+            numberDto = new NumberDto(yellow,101);
+            listOfColors.add(numberDto);
 
 
-            return String.valueOf(0);
+        }
+        if (red!=null) {
+            listOfColor.add(red);
+
+            numberDto = new NumberDto(red,102);
+
+            listOfColors.add(numberDto);
+
+
+
+        }
+        if (black!=null) {
+            listOfColor.add(black);
+
+            numberDto = new NumberDto(black,103);
+
+            listOfColors.add(numberDto);
+
+
+
+        }
+
+
+        //numbers//
+        if (zero!=null) {
+            listOfNumber.add(zero);
+
+            numberDto = new NumberDto(zero,0);
+
+            listOfNumbers.add(numberDto);
+        }
+        if (five!=null) {
+            listOfNumber.add(five);
+
+            numberDto = new NumberDto(five,5);
+            listOfNumbers.add(numberDto);        }
+        if (one!=null) {
+            listOfNumber.add(one);
+
+            numberDto = new NumberDto(one,1);
+
+            listOfNumbers.add(numberDto);
+        }
+        if (two!=null) {
+            listOfNumber.add(two);
+
+            numberDto = new NumberDto(two,2);
+
+            listOfNumbers.add(numberDto);        }
+        if (three!=null) {
+            listOfNumber.add(three);
+
+            numberDto = new NumberDto(three,3);
+
+            listOfNumbers.add(numberDto);        }
+        if (four!=null) {
+            listOfNumber.add(four);
+
+            numberDto = new NumberDto(four,4);
+
+            listOfNumbers.add(numberDto);        }
+
+        if (six!=null) {
+            listOfNumber.add(six);
+
+            numberDto = new NumberDto(six,6);
+            listOfNumbers.add(numberDto);        }
+        if (seven!=null) {
+            listOfNumber.add(seven);
+
+            numberDto = new NumberDto(seven,7);
+            listOfNumbers.add(numberDto);        }
+        if (eight!=null) {
+            listOfNumber.add(eight);
+
+            numberDto = new NumberDto(eight,8);
+            listOfNumbers.add(numberDto);        }
+        if (nine!=null) {
+            listOfNumber.add(nine);
+
+            numberDto = new NumberDto(nine,9);
+            listOfNumbers.add(numberDto);
+        }
+        System.out.println(listOfNumber);
+        System.out.println(listOfColor);
+
+//        Collections.sort(listOfNumber);
+        Collections.sort(listOfColor);
+//
+        System.out.println(listOfNumber);
+        System.out.println(listOfColor);
+
+        for(NumberDto i :listOfNumbers){
+            System.out.print(i.toString());
+        }
+
+
+
+//        Integer numberResult = getResultNumber(listOfNumber,listOfNumbers);
+//        Integer colorResult = getResultcolor(listOfColor,listOfColors);
+        Integer numberResult = 1;
+        Integer colorResult = 101;
+//        List<User> users =
+        System.out.println(numberResult + " "+colorResult);
+        updateChartTrend(numberResult,colorResult);
+        return String.valueOf(0);
 
     }
 
-    private Integer getResultNumber(List<Integer> listOfNumber, List<Integer> lisOfColor) {
-      Integer sumOfAllNumber = 0;
-            for (Integer i : listOfNumber){sumOfAllNumber = sumOfAllNumber+i;}
-            Integer twentyPersent = (int) ((0.20) * sumOfAllNumber);
-            Integer thirtyPersent = (int) ((0.30) * sumOfAllNumber);
-            Integer FourtyPersent = (int) ((0.40) * sumOfAllNumber);
-            Integer fiftyPersent  = (int) ((0.50) * sumOfAllNumber);
+    private Integer getResultcolor(List<Integer> listOfColor,List<NumberDto> listOfColors) {
+        Integer finalWonNumber = -1;
+        for (NumberDto numberDto : listOfColors){
+            System.out.println(listOfColor.get(0)+ " "+numberDto.key);
+            if (listOfColor.get(0) == numberDto.key){
+                finalWonNumber = numberDto.value;
+                break;
+            }
+        }
 
-//
-//        for (Integer i = )
-//        for ()
-        return 0;
+        return finalWonNumber;
+
+    }
+
+    private Integer getResultNumber(List<Integer> listOfNumber,List<NumberDto> listOfNumbers) {
+//        Integer ZeroOrFiveResultNumber = getResultforFiveZeroNumber(listOfNumber);
+        Integer finalWonValue = -1;
+
+        Integer sumOfAllNumber = 0;
+        List<Integer> byteList = new LinkedList<>();
+        for (Integer i : listOfNumber){sumOfAllNumber = sumOfAllNumber+i;}
+//        Integer twentyPersent = (int) ((0.20) * sumOfAllNumber);
+//        Integer thirtyPersent = (int) ((0.30) * sumOfAllNumber);
+//        Integer FourtyPersent = (int) ((0.40) * sumOfAllNumber);
+//        Integer fiftyPersent  = (int) ((0.50) * sumOfAllNumber);
+        Integer fiveNumberValueAllTotal = 1;
+        Integer zeroNumberValueAllTotal = 0;
+        for (Integer i = 0; i<10;i++){
+
+
+            if ((listOfNumbers.get(zeroNumberValueAllTotal).key != 0 && listOfNumbers.get(zeroNumberValueAllTotal).value != listOfNumber.get(i))&&
+                    (listOfNumbers.get(fiveNumberValueAllTotal).key != 5 && listOfNumbers.get(fiveNumberValueAllTotal).value != listOfNumber.get(i))){
+
+                Integer allNineMultValue = (listOfNumber.get(i))+((listOfNumber.get(i))*9);
+
+                Integer sumOfOtherNineNumber =0;
+
+                for (Integer j = 0; j<10;j++) {
+                    if (i!=j){
+                        sumOfOtherNineNumber = sumOfOtherNineNumber +listOfNumber.get(i);
+                    }else if (j == i){
+                        System.out.println("im inside i == j");
+                    }
+                }
+                Integer fiftyPersent = (int) ((0.50) * sumOfOtherNineNumber);
+                Integer seventyFivePersent = (int) ((0.75) * sumOfOtherNineNumber);
+                System.out.println(fiftyPersent +"  "+seventyFivePersent );
+                System.err.println(allNineMultValue +"all sum"+ sumOfOtherNineNumber);
+                System.err.println((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent));
+                if (allNineMultValue < sumOfOtherNineNumber && (allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent)){
+                    finalWonValue =  getMyWonNumberbyNus(listOfNumbers,listOfNumber.get(i));
+                } else if (allNineMultValue <= fiftyPersent) {
+                    byteList.add(i);
+                }
+                System.out.println("i value is :"+i);
+            }
+            if (finalWonValue == -1){
+                finalWonValue = getResultforFiveZeroNumber(zeroNumberValueAllTotal,fiveNumberValueAllTotal,listOfNumbers,byteList,listOfNumber);
+            }
+
+
+        }
+
+
+
+        return finalWonValue;
+
+    }
+
+    private Integer getMyWonNumberbyNus(List<NumberDto> listOfNumbers, Integer key) {
+        Integer finalWonNumber = -1;
+        for (NumberDto numberDto : listOfNumbers){
+            if (numberDto.key == key){
+                finalWonNumber = numberDto.value;
+            }
+        }
+        return finalWonNumber;
+    }
+
+    private Integer getResultforFiveZeroNumber(Integer zeroNumberValueAllTotal,
+                                               Integer fiveNumberValueAllTotal,
+                                               List<NumberDto> listOfNumbers,
+                                               List<Integer> byteList,
+                                               List<Integer> listOfNumber) {
+
+        Integer finalWonValue = -1;
+        Integer zeroNumberValue = 0;
+
+        Integer fiveNumberValue = 0;
+        for (NumberDto numberDto : listOfNumbers){
+            if (numberDto.key == zeroNumberValue){
+                zeroNumberValue = numberDto.value;
+            }else if (numberDto.key == fiveNumberValue){
+                fiveNumberValue = numberDto.value;
+            }else if (zeroNumberValue > 0 &&fiveNumberValue > 0 ){
+                break;
+            }
+        }
+
+        for (Integer postionNumbers =0;postionNumbers<byteList.size();postionNumbers++){
+            Integer postionNum = listOfNumber.get(byteList.get(postionNumbers));
+            if (postionNum != zeroNumberValue  && postionNum!= fiveNumberValue && postionNum > zeroNumberValue  && postionNum > fiveNumberValue ){
+                finalWonValue = getMyWonNumberbyNus(listOfNumbers,postionNum);
+                return finalWonValue;
+            }
+        }
+        if (zeroNumberValue == fiveNumberValue){
+            Random random = new Random();
+
+            Integer randomValue = random.nextInt(2);
+            System.out.println("random number is : "+randomValue);
+            if (randomValue == 0){
+                finalWonValue = 0;
+            }else {
+                finalWonValue = 5;
+            }
+        }
+
+        return finalWonValue;
 
     }
 

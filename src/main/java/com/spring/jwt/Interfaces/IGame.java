@@ -5,7 +5,7 @@ import com.spring.jwt.entity.User;
 public interface IGame {
     public String saveGameColorOrNumber(String referenceId, String colorOrNumber, Integer amount, String period);
 
-    String updateChartTrend(Integer wonNumber);
+    public String updateChartTrend(Integer wonNumber,Integer wonColor);
 
     Object getLivePeriodNo();
 
