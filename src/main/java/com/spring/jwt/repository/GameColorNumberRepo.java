@@ -6,10 +6,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface GameColorNumberRepo extends JpaRepository<GameColorNumber, Integer> {
+    @Query("SELECT gcn FROM GameColorNumber gcn WHERE gcn.userReferenceId = :userReferenceId AND gcn.period = :period AND gcn.winStatus = :winStatus")
+    List<GameColorNumber> findByRefAndPeriodAndWinStatus(@Param("userReferenceId") String userReferenceId,
+                                                         @Param("period") String period,
+                                                         @Param("winStatus") Boolean winStatus);
+
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.black = :status",nativeQuery = false)
     Integer finByBlack(@Param("status") Boolean status);

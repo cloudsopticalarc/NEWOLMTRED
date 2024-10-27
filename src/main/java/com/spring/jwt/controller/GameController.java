@@ -4,12 +4,15 @@ import com.spring.jwt.Interfaces.IGame;
 import com.spring.jwt.Interfaces.UserService;
 import com.spring.jwt.dto.ResponceDto;
 import com.spring.jwt.dto.ResponseDto;
+import com.spring.jwt.entity.ChartTrend;
 import com.spring.jwt.entity.GameColorNumber;
 import com.spring.jwt.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/userGame")
@@ -95,7 +98,30 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto("unsuccess", e.getMessage()));
         }
     }
+    @GetMapping("/getOrderByUserRefIdDone")
+    public ResponseEntity<?> getOrderByUserRefIdDone(@RequestParam String referanceId ,@RequestParam String period) {
+        try {
+            List<GameColorNumber> chartTrend = iGame.getOrderByUserRefIdDone(referanceId,period);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success", chartTrend));
 
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto("unsuccess", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto("unsuccess", e.getMessage()));
+        }
+    }
+    @GetMapping("/getOrderByUserRefIdRunning")
+    public ResponseEntity<?> getOrderByUserRefIdRunning(@RequestParam String referanceId ,@RequestParam String period) {
+        try {
+            List<GameColorNumber> chartTrend = iGame.getOrderByUserRefIdRunning(referanceId,period);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponceDto("success", chartTrend));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto("unsuccess", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto("unsuccess", e.getMessage()));
+        }
+    }
     @GetMapping("/getWithdraw")
     public ResponseEntity<?> getWithdraw(@RequestParam String referanceId) {
         try {

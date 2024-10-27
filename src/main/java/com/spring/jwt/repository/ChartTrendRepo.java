@@ -14,4 +14,9 @@ public interface ChartTrendRepo extends JpaRepository<ChartTrend,Integer> {
     Optional<ChartTrend> findByRunningStatus(String running);
     @Query("SELECT ct FROM ChartTrend ct WHERE ct.runningStatus = :runningStatus")
     List<ChartTrend> findByDoneStatus(@Param("runningStatus") String runningStatus);
+//
+//    @Query("SELECT ct FROM ChartTrend ct WHERE ct.runningStatus = :runningStatus AND ct.period = :period")
+//    List<ChartTrend> findByRefAndPeriod(@Param("referanceId") String referanceId,
+//                                        @Param("period") Long period,
+//                                        @Param("runningStatus") String runningStatus);
 }

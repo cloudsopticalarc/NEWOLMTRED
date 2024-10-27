@@ -333,9 +333,9 @@ public class GameImp implements IGame {
 
 
 //        Integer numberResult = getResultNumber(listOfNumber,listOfNumbers);
-//        Integer colorResult = getResultcolor(listOfColor,listOfColors);
+        Integer colorResult = getResultcolor(listOfColor,listOfColors);
         Integer numberResult = 1;
-        Integer colorResult = 101;
+//        Integer colorResult = 101;
 //        List<User> users =
         System.out.println(numberResult + " "+colorResult);
         updateChartTrend(numberResult,colorResult);
@@ -351,6 +351,19 @@ public class GameImp implements IGame {
         return chartTrends;
     }
 
+    @Override
+    public List<GameColorNumber> getOrderByUserRefIdDone(String referanceId, String period) {
+        List<GameColorNumber> gameColorNumbers =gameColorNumberRepo.findByRefAndPeriodAndWinStatus(referanceId,period,true);
+        if (gameColorNumbers.size()<=0)throw new RuntimeException("game Color Numbers not found by referance ID or period ");
+        return gameColorNumbers;
+    }
+
+    @Override
+    public List<GameColorNumber> getOrderByUserRefIdRunning(String referanceId, String period) {
+        List<GameColorNumber> gameColorNumbers =gameColorNumberRepo.findByRefAndPeriodAndWinStatus(referanceId,period,false);
+        if (gameColorNumbers.size()<=0)throw new RuntimeException("game Color Numbers not found by referance ID or period ");
+        return gameColorNumbers;
+    }
     private Integer getResultcolor(List<Integer> listOfColor,List<NumberDto> listOfColors) {
         Integer finalWonNumber = -1;
         for (NumberDto numberDto : listOfColors){
