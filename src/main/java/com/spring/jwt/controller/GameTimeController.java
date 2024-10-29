@@ -2,6 +2,7 @@ package com.spring.jwt.controller;
 import com.spring.jwt.Interfaces.IGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class GameTimeController {
 
 
     @GetMapping("/remaining-time")
+    @Scheduled(fixedDelay = 9000 * 60)
     public ResponseEntity<Long> getRemainingTime() {
         Instant now = Instant.now();
         Duration remainingTime = Duration.between(now, gameStartTime.plusSeconds(GAME_DURATION_SECONDS));
@@ -33,6 +35,7 @@ public class GameTimeController {
         }
         return ResponseEntity.ok(remainingTime.getSeconds());
     }
+    @Scheduled(fixedDelay = 9000 * 60)
     public void getRemainingTimeHit() {
         Instant now = Instant.now();
         Duration remainingTime = Duration.between(now, gameStartTime.plusSeconds(GAME_DURATION_SECONDS));
