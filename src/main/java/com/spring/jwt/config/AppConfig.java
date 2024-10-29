@@ -107,6 +107,8 @@ public class AppConfig {
                 .requestMatchers("/makeWinNumber/**").permitAll()
                 .requestMatchers("/user/**").permitAll()
                 .requestMatchers("/superAdmin/**").permitAll()
+                .requestMatchers("/time/**").permitAll()
+
 
                 .anyRequest().authenticated()
                 .and()

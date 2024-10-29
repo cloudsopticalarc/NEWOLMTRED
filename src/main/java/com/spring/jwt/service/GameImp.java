@@ -490,6 +490,9 @@ public class GameImp implements IGame {
                             .build();
 
             profitRepo.save(profit);
+
+            updateChartTrend(numberResult,colorResult);
+
         return colorResult +" "+numberResult;
 //        return String.valueOf(colorResult);
     }
