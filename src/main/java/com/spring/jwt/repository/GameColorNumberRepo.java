@@ -11,6 +11,40 @@ import java.util.Optional;
 
 @Repository
 public interface GameColorNumberRepo extends JpaRepository<GameColorNumber, Integer> {
+
+
+
+    @Query("SELECT g FROM GameColorNumber g WHERE " +
+            "(:zero IS NULL OR g.zero = :zero) AND " +
+            "(:one IS NULL OR g.one = :one) AND " +
+            "(:two IS NULL OR g.two = :two) AND " +
+            "(:three IS NULL OR g.three = :three) AND " +
+            "(:four IS NULL OR g.four = :four) AND " +
+            "(:five IS NULL OR g.five = :five) AND " +
+            "(:six IS NULL OR g.six = :six) AND " +
+            "(:seven IS NULL OR g.seven = :seven) AND " +
+            "(:eight IS NULL OR g.eight = :eight) AND " +
+            "(:nine IS NULL OR g.nine = :nine) AND " +
+            "(:red IS NULL OR g.red = :red) AND " +
+            "(:black IS NULL OR g.black = :black) AND " +
+            "(:yellow IS NULL OR g.yellow = :yellow) AND " +
+            "(:winStatus IS NULL OR g.winStatus = :winStatus)")
+    List<GameColorNumber> findByCriteria(
+            @Param("zero") Boolean zero,
+            @Param("one") Boolean one,
+            @Param("two") Boolean two,
+            @Param("three") Boolean three,
+            @Param("four") Boolean four,
+            @Param("five") Boolean five,
+            @Param("six") Boolean six,
+            @Param("seven") Boolean seven,
+            @Param("eight") Boolean eight,
+            @Param("nine") Boolean nine,
+            @Param("red") Boolean red,
+            @Param("black") Boolean black,
+            @Param("yellow") Boolean yellow,
+            @Param("winStatus") Boolean winStatus);
+
     @Query("SELECT gcn FROM GameColorNumber gcn WHERE gcn.userReferenceId = :userReferenceId AND gcn.winStatus = :winStatus")
     List<GameColorNumber> findByRefAndPeriodAndWinStatus(@Param("userReferenceId") String userReferenceId,
                                                          @Param("winStatus") Boolean winStatus);
@@ -54,4 +88,8 @@ public interface GameColorNumberRepo extends JpaRepository<GameColorNumber, Inte
 
     @Query(value = "SELECT SUM(g.amount) as totalAmount FROM GameColorNumber g WHERE g.nine = :status",nativeQuery = false)
     Integer findByNine(@Param("status") Boolean status);
+
+    @Query("SELECT g FROM GameColorNumber g WHERE " +
+            "(:winStatus IS NULL OR g.winStatus = :winStatus)")
+    List<GameColorNumber> findAllWinStatus(Boolean winStatus);
 }

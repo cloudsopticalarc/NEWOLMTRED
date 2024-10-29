@@ -20,6 +20,9 @@ public class GameColorNumber {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "userId", nullable = false, columnDefinition = "INTEGER")
+    private Integer userId;
+
     @Column(name = "DateAndTime", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dateAndTime;
     @Column(name = "amount", nullable = false, columnDefinition = "INTEGER")

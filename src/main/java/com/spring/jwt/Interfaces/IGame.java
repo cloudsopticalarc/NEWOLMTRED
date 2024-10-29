@@ -11,7 +11,7 @@ public interface IGame {
 
     public String updateChartTrend(Integer wonNumber,Integer wonColor);
 
-    Object getLivePeriodNo();
+    ChartTrend getLivePeriodNo();
 
     String saveChartTrend();
 

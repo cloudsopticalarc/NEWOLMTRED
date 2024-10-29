@@ -4,17 +4,13 @@ import com.spring.jwt.Interfaces.IGame;
 import com.spring.jwt.dto.NumberDto;
 import com.spring.jwt.dto.ResponceDto;
 import com.spring.jwt.dto.ResponseSizeObjectDto;
-import com.spring.jwt.entity.ChartTrend;
-import com.spring.jwt.entity.GameColorNumber;
-import com.spring.jwt.entity.User;
-import com.spring.jwt.entity.WinNumber;
-import com.spring.jwt.repository.ChartTrendRepo;
-import com.spring.jwt.repository.GameColorNumberRepo;
-import com.spring.jwt.repository.UserRepository;
+import com.spring.jwt.entity.*;
+import com.spring.jwt.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -27,6 +23,8 @@ public class GameImp implements IGame {
     private GameColorNumberRepo gameColorNumberRepo;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProfitGameRepo profitRepo;
     @Autowired
     private ChartTrendRepo chartTrendRepo;
     @Override
@@ -54,6 +52,7 @@ public class GameImp implements IGame {
                                                                                     .period(period)
                                                                                         .userReferenceId(referenceId)
                                                                                             .winStatus(false)
+                                                                                                .userId(user.getId())
                         .build();
 
 
@@ -163,7 +162,7 @@ public class GameImp implements IGame {
 
             chartTrendRepo.save(chartTrend);
         }catch (RuntimeException e){
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
         }
         LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -184,13 +183,13 @@ public class GameImp implements IGame {
     }
 
     @Override
-    public Object getLivePeriodNo() {
+    public ChartTrend getLivePeriodNo() {
         try {
 
             ChartTrend chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_").orElseThrow(()->new RuntimeException("invalid running status"));
             return chartTrend;
         }catch (RuntimeException e){
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
 
         }
 
@@ -213,8 +212,8 @@ public class GameImp implements IGame {
         Integer seven =gameColorNumberRepo.findBySeven(true);
         Integer eight =gameColorNumberRepo.findByEight(true);
         Integer nine =gameColorNumberRepo.findByNine(true);
-        System.out.println(nine);
-        System.out.println(black +" "+ red +" "+yellow +" "+ zero +" "+one +" "+ two +" "+three +" "+ four +" "+five +" "+ six +" "+ seven+" "+ eight +" "+nine);
+
+        // // System.out.println(nine);
 
 
         List<Integer> listOfNumber = new ArrayList<>();
@@ -224,14 +223,23 @@ public class GameImp implements IGame {
         NumberDto numberDto;
 
 
-
 //      _YELLOW_  == 101
 //        _RED_   == 102
 //        _BLACK_ == 103
         if (yellow!=null) {
             listOfColor.add(yellow);
             numberDto = new NumberDto(yellow,101);
+
             listOfColors.add(numberDto);
+
+
+        }else {
+            listOfColor.add(0);
+
+            numberDto = new NumberDto(0,101);
+
+            listOfColors.add(numberDto);
+
 
 
         }
@@ -239,6 +247,15 @@ public class GameImp implements IGame {
             listOfColor.add(red);
 
             numberDto = new NumberDto(red,102);
+
+            listOfColors.add(numberDto);
+
+
+
+        }else {
+            listOfColor.add(0);
+
+            numberDto = new NumberDto(0,102);
 
             listOfColors.add(numberDto);
 
@@ -254,6 +271,15 @@ public class GameImp implements IGame {
 
 
 
+        }else {
+            listOfColor.add(0);
+
+            numberDto = new NumberDto(0,103);
+
+            listOfColors.add(numberDto);
+
+
+
         }
 
 
@@ -264,18 +290,46 @@ public class GameImp implements IGame {
             numberDto = new NumberDto(zero,0);
 
             listOfNumbers.add(numberDto);
+        }else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,0);
+
+            listOfNumbers.add(numberDto);
+
+
+
         }
         if (five!=null) {
             listOfNumber.add(five);
 
             numberDto = new NumberDto(five,5);
             listOfNumbers.add(numberDto);        }
+        else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,5);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }
         if (one!=null) {
             listOfNumber.add(one);
 
             numberDto = new NumberDto(one,1);
 
             listOfNumbers.add(numberDto);
+        }else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,1);
+
+            listOfNumbers.add(numberDto);
+
+
+
         }
         if (two!=null) {
             listOfNumber.add(two);
@@ -283,66 +337,392 @@ public class GameImp implements IGame {
             numberDto = new NumberDto(two,2);
 
             listOfNumbers.add(numberDto);        }
-        if (three!=null) {
+        else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,2);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }if (three!=null) {
             listOfNumber.add(three);
 
             numberDto = new NumberDto(three,3);
 
             listOfNumbers.add(numberDto);        }
-        if (four!=null) {
+        else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,3);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }if (four!=null) {
             listOfNumber.add(four);
 
             numberDto = new NumberDto(four,4);
 
             listOfNumbers.add(numberDto);        }
 
-        if (six!=null) {
+        else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,4);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }        if (six!=null) {
             listOfNumber.add(six);
 
             numberDto = new NumberDto(six,6);
-            listOfNumbers.add(numberDto);        }
+            listOfNumbers.add(numberDto);
+        }else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,6);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }
         if (seven!=null) {
             listOfNumber.add(seven);
 
             numberDto = new NumberDto(seven,7);
             listOfNumbers.add(numberDto);        }
+        else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,7);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }
         if (eight!=null) {
             listOfNumber.add(eight);
 
             numberDto = new NumberDto(eight,8);
             listOfNumbers.add(numberDto);        }
+        else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,8);
+
+            listOfNumbers.add(numberDto);
+
+
+
+        }
         if (nine!=null) {
             listOfNumber.add(nine);
 
             numberDto = new NumberDto(nine,9);
             listOfNumbers.add(numberDto);
+        }else {
+            listOfNumber.add(0);
+
+            numberDto = new NumberDto(0,9);
+
+            listOfNumbers.add(numberDto);
+
+
+
         }
-        System.out.println(listOfNumber);
-        System.out.println(listOfColor);
+        System.out.println(black +" "+ red +" "+yellow +" "+ zero +" "+one +" "+ two +" "+three +" "+ four +" "+five +" "+ six +" "+ seven+" "+ eight +" "+nine);
+
+          System.out.println(listOfNumber);
+          System.out.println(listOfColor);
 
 //        Collections.sort(listOfNumber);
         Collections.sort(listOfColor);
 //
-        System.out.println(listOfNumber);
-        System.out.println(listOfColor);
+        // // System.out.println(listOfNumber);
+        // // System.out.println(listOfColor);
+//
+//        for(NumberDto i :listOfNumbers){
+//            // System.out.println(i.toString());
+//        }
+//
+//        // System.out.println(listOfNumbers.get(7).key);
+//        // System.out.println(listOfNumbers.get(8).key);
+//        // System.out.println(listOfNumbers.get(9).key);
 
-        for(NumberDto i :listOfNumbers){
-            System.out.print(i.toString());
+        Integer numberResult = getResultNumber(listOfNumber,listOfNumbers);
+        Integer colorResult = getResultcolor(listOfColor,listOfColors);
+        // System.out.println("Final :"+numberResult + " "+colorResult);
+
+        // System.out.println("460");
+        Integer sumOfNum =sumOfTotalAmount(listOfNumbers,"NUMBER");
+        // System.out.println("460");
+
+        Integer sumOfColor=sumOfTotalAmount(listOfColors,"COLOR");
+        // System.out.println("460");
+
+        Integer sumOfNumP =sumOfProfit(listOfNumbers,numberResult);
+        // System.out.println("460");
+
+        Integer sumOfColorP=sumOfProfitcolor(listOfColors,colorResult);
+        // System.out.println("460");
+        // System.out.println(sumOfNum+" "+sumOfColor );
+//
+//
+
+        saveNumberWonUserAmount(numberResult,colorResult);
+        // System.out.println("460");
+                    ProfitGame profit = ProfitGame.builder()
+                            .TransactionsDateAndTime(LocalDateTime.now())
+                            .totalAmountColor(sumOfColor)
+                            .totalAmountNumber(sumOfNum)
+                            .profitAmountColor(sumOfColor-sumOfColorP)
+                            .profitAmountNumber(sumOfNum-sumOfNumP)
+                            .period(String.valueOf(getLivePeriodNo().getPeriod()))
+                            .status("SUCCESS")
+                            .sourceOfProfit("GAME")
+                            .build();
+
+            profitRepo.save(profit);
+        return colorResult +" "+numberResult;
+//        return String.valueOf(colorResult);
+    }
+    private Integer getResultcolor(List<Integer> listOfColor,List<NumberDto> listOfColors) {
+        Integer finalWonNumber = -1;
+        for (NumberDto numberDto : listOfColors){
+            // // System.out.println(listOfColor.get(0)+ " "+numberDto.key);
+            if (listOfColor.get(0) == numberDto.key){
+                finalWonNumber = numberDto.value;
+                break;
+            }
+        }
+
+        return finalWonNumber;
+
+    }
+    private Integer sumOfTotalAmount(List<NumberDto> list,String type) {
+        Integer sumOfTotalAmount = 0;
+        for (NumberDto numberDto : list){
+
+//             // System.out.println(numberDto.value+ " "+numberDto.key);
+            if (0 == numberDto.value && type.equals("NUMBER")){
+                sumOfTotalAmount =sumOfTotalAmount +(numberDto.key*2);
+            }else if (5 == numberDto.value && type.equals("NUMBER")){
+                sumOfTotalAmount =sumOfTotalAmount +(numberDto.key*2);
+
+
+            }else {
+                sumOfTotalAmount =sumOfTotalAmount +(numberDto.key);
+
+            }
+        }
+//        // System.out.println(sumOfTotalAmount);
+        return sumOfTotalAmount;
+
+    }
+
+
+    private Integer sumOfProfit(List<NumberDto> list, Integer winNum) {
+        Integer sumOfTotalAmount = 0;
+        for (NumberDto numberDto : list){
+            // // System.out.println(listOfColor.get(0)+ " "+numberDto.key);
+            // System.out.println("inside sumOfProfit"+winNum +" "+numberDto.value +" "+numberDto.key+" "+(winNum==numberDto.value));
+            if (winNum == numberDto.value){
+                sumOfTotalAmount =(numberDto.key);
+                break;
+            }
+        }
+        // System.out.println(sumOfTotalAmount);
+        sumOfTotalAmount = ((sumOfTotalAmount) + (sumOfTotalAmount * 9));
+        // System.out.println(sumOfTotalAmount);
+        return sumOfTotalAmount;
+
+
+
+    }
+    private Integer sumOfProfitcolor(List<NumberDto> list, Integer winNum) {
+        Integer sumOfTotalAmount = 0;
+        for (NumberDto numberDto : list){
+            // // System.out.println(listOfColor.get(0)+ " "+numberDto.key);
+            // System.out.println("inside sumOfProfit"+winNum +" "+numberDto.value +" "+numberDto.key+" "+(winNum==numberDto.value));
+            if (winNum == numberDto.value){
+                sumOfTotalAmount =(numberDto.key);
+                break;
+            }
+        }
+        // System.out.println(sumOfTotalAmount);
+        sumOfTotalAmount = (int) ((sumOfTotalAmount) + (sumOfTotalAmount * 0.9));
+        // System.out.println(sumOfTotalAmount);
+        return sumOfTotalAmount;
+
+
+
+    }
+
+    private Integer getResultNumber(List<Integer> listOfNumber,List<NumberDto> listOfNumbers) {
+//        Integer ZeroOrFiveResultNumber = getResultforFiveZeroNumber(listOfNumber);
+        Integer finalWonValue = -1;
+
+        Integer sumOfAllNumber = 0;
+        List<Integer> byteList = new LinkedList<>();
+        for (Integer i : listOfNumber){sumOfAllNumber = sumOfAllNumber+i;}
+//        // System.out.println("423");
+//        Integer twentyPersent = (int) ((0.20) * sumOfAllNumber);
+//        Integer thirtyPersent = (int) ((0.30) * sumOfAllNumber);
+//        Integer FourtyPersent = (int) ((0.40) * sumOfAllNumber);
+//        Integer fiftyPersent  = (int) ((0.50) * sumOfAllNumber);
+        Integer fiveNumberValueAllTotal = 1;
+        Integer zeroNumberValueAllTotal = 0;
+        for (Integer i = 2; i<listOfNumbers.size();i++) {
+            Boolean stopLoopFlag = false;
+
+//            if ((listOfNumbers.get(i).value != 0 && listOfNumbers.get(zeroNumberValueAllTotal).key != listOfNumber.get(i)) &&
+//                    (listOfNumbers.get(i).value != 5 && listOfNumbers.get(fiveNumberValueAllTotal).key != listOfNumber.get(i))) {
+//                // // System.out.println("ok");
+//                }
+//
+//        else{
+//                // // System.out.println("not ok");
+//            }
+//            if ((listOfNumbers.get(i).value != 0 && listOfNumbers.get(zeroNumberValueAllTotal).key != listOfNumber.get(i)) &&
+//                    (listOfNumbers.get(i).value != 5 && listOfNumbers.get(fiveNumberValueAllTotal).key != listOfNumber.get(i))) {
+            // System.out.println(listOfNumbers.size()+" "+i);
+
+            Integer allNineMultValue = (listOfNumbers.get(i)).key*10;
+            // System.out.println("444");
+//                // System.err.println(allNineMultValue +" "+(listOfNumber.get(i))*10);
+            Integer sumOfOtherNineNumber =0;
+
+            for (Integer j = 2; j<listOfNumbers.size();j++) {
+
+                if (i!=j && (listOfNumbers.get(j).value != 0 ) &&
+                        (listOfNumbers.get(j).value != 5 )){
+                    sumOfOtherNineNumber = sumOfOtherNineNumber +listOfNumber.get(j);
+                        // System.out.println(sumOfOtherNineNumber+" " +listOfNumber.get(j)+" "+j);
+                }else if (j == i){
+                     // System.out.println("im inside i == j");
+                }
+            }
+
+            sumOfOtherNineNumber=sumOfOtherNineNumber+listOfNumbers.get(zeroNumberValueAllTotal).key+listOfNumbers.get(fiveNumberValueAllTotal).key;
+            // System.err.println(sumOfOtherNineNumber +" "+allNineMultValue);
+
+
+            Integer fiftyPersent = (int) ((0.50) * sumOfOtherNineNumber);
+            Integer seventyFivePersent = (int) ((0.75) * sumOfOtherNineNumber);
+//                 // System.out.println(fiftyPersent +"  "+seventyFivePersent );
+//                // System.err.println(allNineMultValue +"all sum"+ sumOfOtherNineNumber);
+//                // System.err.println((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent));
+            // System.err.println( (allNineMultValue < sumOfOtherNineNumber && ((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent))));
+
+            if (allNineMultValue < sumOfOtherNineNumber && ((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent))){
+                finalWonValue =  getMyWonNumberbyNus(listOfNumbers,listOfNumber.get(i));
+                stopLoopFlag = true;
+                break;
+            } else if (allNineMultValue > 0 && allNineMultValue <= fiftyPersent) {
+                byteList.add(i);
+
+            }
+            if (stopLoopFlag)break;
+//                 // System.out.println(allNineMultValue +" "+ fiftyPersent);
+//            }
+            // System.out.println("byte      "+byteList.size());
+
+
+
+        }
+        if (finalWonValue == -1){
+            finalWonValue = getResultforFiveZeroNumber(zeroNumberValueAllTotal,fiveNumberValueAllTotal,listOfNumbers,byteList,listOfNumber);
         }
 
 
 
-//        Integer numberResult = getResultNumber(listOfNumber,listOfNumbers);
-        Integer colorResult = getResultcolor(listOfColor,listOfColors);
-        Integer numberResult = 1;
-//        Integer colorResult = 101;
-//        List<User> users =
-        System.out.println(numberResult + " "+colorResult);
-        updateChartTrend(numberResult,colorResult);
-        return String.valueOf(0);
+        return finalWonValue;
 
     }
 
+    private Integer getMyWonNumberbyNus( List<NumberDto> listOfNumbers,Integer key) {
+        Integer finalWonNumber = -3;
+
+
+        for (NumberDto numberDto : listOfNumbers){
+            // System.err.println(key);
+            if (numberDto.key == key){
+                finalWonNumber = numberDto.value;
+            }
+        }
+        return finalWonNumber;
+    }
+
+    private Integer getResultforFiveZeroNumber(Integer zeroNumberValueAllTotal,
+                                               Integer fiveNumberValueAllTotal,
+                                               List<NumberDto> listOfNumbers,
+                                               List<Integer> byteList,
+                                               List<Integer> listOfNumber) {
+        if (listOfNumbers.size()<=0){
+            return -1;
+        }
+
+        Integer finalWonValue = -2;
+        Integer zeroNumberValue = listOfNumbers.get(0).key;
+
+        Integer fiveNumberValue = listOfNumbers.get(1).key;
+        List<Integer> list = new LinkedList<>();
+        for (Integer postion : byteList){
+            list.add(listOfNumbers.get(postion).key);
+        }
+        Collections.sort(list);
+//                for (Integer postionNumbers =0;postionNumbers<byteList.size();postionNumbers++){
+//                    Integer postionNum = listOfNumber.get(byteList.get(postionNumbers));
+//                    if (postionNum != zeroNumberValue  && postionNum!= fiveNumberValue ){
+//                        finalWonValue = getMyWonNumberbyNus(listOfNumbers,postionNum);
+//                        return finalWonValue;
+//                    }
+//                }
+        if (byteList.size()>0 && (list.get(list.size() - 1) != zeroNumberValue) && (list.get(list.size() - 1) != fiveNumberValue)) {
+            finalWonValue = getMyWonNumberbyNus(listOfNumbers, list.get(list.size() - 1));
+            return finalWonValue;
+        }
+
+        Integer sumOfAll = 0;
+        for(NumberDto numberDto:listOfNumbers){
+            sumOfAll = sumOfAll+numberDto.key;
+        }
+        if (zeroNumberValue == fiveNumberValue){
+            Random random = new Random();
+
+            Integer randomValue = random.nextInt(2);
+            // // System.out.println("random number is : "+randomValue);
+            if (randomValue == 0){
+                finalWonValue = 0;
+            }else {
+                finalWonValue = 5;
+            }
+        }else if (zeroNumberValue>fiveNumberValue){
+            Integer nintyFivePersent = (int) ((0.90) * (sumOfAll-zeroNumberValue));
+            // System.err.println(sumOfAll +" "+nintyFivePersent+" "+zeroNumberValue);
+            if (zeroNumberValue>0 && zeroNumberValue<nintyFivePersent){
+                finalWonValue = 0;
+            }
+        }else if (zeroNumberValue<fiveNumberValue){
+            Integer nintyFivePersent = (int) ((0.90) * (sumOfAll-fiveNumberValue));
+            // System.err.println(fiveNumberValue>0 && fiveNumberValue<nintyFivePersent);
+            if (fiveNumberValue>0 && fiveNumberValue<nintyFivePersent){
+                finalWonValue = 5;
+            }
+        }
+
+
+        return finalWonValue;
+
+
+}
     @Override
     public Object getResult() {
         List<ChartTrend> chartTrends = chartTrendRepo.findByDoneStatus("_DONE_");
@@ -365,126 +745,126 @@ public class GameImp implements IGame {
         if (gameColorNumbers.size()<=0)throw new RuntimeException("game Color Numbers not found by referance ID or period ");
         return gameColorNumbers;
     }
-    private Integer getResultcolor(List<Integer> listOfColor,List<NumberDto> listOfColors) {
-        Integer finalWonNumber = -1;
-        for (NumberDto numberDto : listOfColors){
-            System.out.println(listOfColor.get(0)+ " "+numberDto.key);
-            if (listOfColor.get(0) == numberDto.key){
-                finalWonNumber = numberDto.value;
-                break;
-            }
+
+    public void saveNumberWonUserAmount(Integer number , Integer color) {
+        Boolean black = false;
+        Boolean red =false;
+        Boolean yellow =false;
+        Boolean zero =false;
+        Boolean one =false;
+        Boolean two =false;
+        Boolean three =false;
+        Boolean four =false;
+        Boolean five =false;
+        Boolean six =false;
+        Boolean seven =false;
+        Boolean eight =false;
+        Boolean nine =false;
+        //      _YELLOW_  == 101
+//        _RED_   == 102
+//        _BLACK_ == 103
+
+        if (101==color) {
+            yellow =true;
+
+        }
+        if (102==color) {
+           red=true;
+
+
+
+        }
+        if (103==color) {
+            black = true;
+
+
+
         }
 
-        return finalWonNumber;
 
-    }
+        //numbers//
+        if (number==0) {
+            zero =true;
+        }
+        if (number==1) {
+            one =true;
 
-    private Integer getResultNumber(List<Integer> listOfNumber,List<NumberDto> listOfNumbers) {
-//        Integer ZeroOrFiveResultNumber = getResultforFiveZeroNumber(listOfNumber);
-        Integer finalWonValue = -1;
+        }
+        if (number==2) {
+            two =true;
+        }
+        if (number==3) {
+         three =true;
+        }
+        if (number==4) {
+            four = true;
+        }
+        if (number==5) {
+          five =true;
+        }
 
-        Integer sumOfAllNumber = 0;
-        List<Integer> byteList = new LinkedList<>();
-        for (Integer i : listOfNumber){sumOfAllNumber = sumOfAllNumber+i;}
-//        Integer twentyPersent = (int) ((0.20) * sumOfAllNumber);
-//        Integer thirtyPersent = (int) ((0.30) * sumOfAllNumber);
-//        Integer FourtyPersent = (int) ((0.40) * sumOfAllNumber);
-//        Integer fiftyPersent  = (int) ((0.50) * sumOfAllNumber);
-        Integer fiveNumberValueAllTotal = 1;
-        Integer zeroNumberValueAllTotal = 0;
-        for (Integer i = 0; i<10;i++){
+        if (number==6) {
+            six =true;
+                 }
+        if (number==7) {
+            seven =true;
+        }
+        if (number==8) {
+        nine =true;
+        }
 
+        if (number==9) {
+         nine=true;
+        }
 
-            if ((listOfNumbers.get(zeroNumberValueAllTotal).key != 0 && listOfNumbers.get(zeroNumberValueAllTotal).value != listOfNumber.get(i))&&
-                    (listOfNumbers.get(fiveNumberValueAllTotal).key != 5 && listOfNumbers.get(fiveNumberValueAllTotal).value != listOfNumber.get(i))){
+            List<GameColorNumber> gameColorNumbers1 = gameColorNumberRepo.findByCriteria(zero, one, two, three, four, five, six, seven, eight, nine, red, black, yellow ,false);
+            List<GameColorNumber> gameColorNumbers = gameColorNumberRepo.findAllWinStatus(false);
+            for (GameColorNumber gameColorNumber:gameColorNumbers){
+                if (gameColorNumber.getType().equals("_COLOR_")){
+                    System.out.println("inside color 824");
+                    gameColorNumber.setWonNumber(color);
+                }else {
 
-                Integer allNineMultValue = (listOfNumber.get(i))+((listOfNumber.get(i))*9);
-
-                Integer sumOfOtherNineNumber =0;
-
-                for (Integer j = 0; j<10;j++) {
-                    if (i!=j){
-                        sumOfOtherNineNumber = sumOfOtherNineNumber +listOfNumber.get(i);
-                    }else if (j == i){
-                        System.out.println("im inside i == j");
-                    }
+                    gameColorNumber.setWonNumber(number);
                 }
-                Integer fiftyPersent = (int) ((0.50) * sumOfOtherNineNumber);
-                Integer seventyFivePersent = (int) ((0.75) * sumOfOtherNineNumber);
-                System.out.println(fiftyPersent +"  "+seventyFivePersent );
-                System.err.println(allNineMultValue +"all sum"+ sumOfOtherNineNumber);
-                System.err.println((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent));
-                if (allNineMultValue < sumOfOtherNineNumber && (allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent)){
-                    finalWonValue =  getMyWonNumberbyNus(listOfNumbers,listOfNumber.get(i));
-                } else if (allNineMultValue <= fiftyPersent) {
-                    byteList.add(i);
+                gameColorNumber.setWinStatus(true);
+            }
+        System.out.println("list"+gameColorNumbers);
+            HashMap <String,Integer> referanceIdANDAmount = new HashMap<>();
+            List<Integer> list= new LinkedList<>();
+            for (GameColorNumber gameColorNumber:gameColorNumbers1){
+//               list.add(gameColorNumber.)
+                if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
+                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
+                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+                }else {
+                    list.add(gameColorNumber.getUserId());
+                    Integer amountUpdate = (int) ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85));
+
+                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+
                 }
-                System.out.println("i value is :"+i);
-            }
-            if (finalWonValue == -1){
-                finalWonValue = getResultforFiveZeroNumber(zeroNumberValueAllTotal,fiveNumberValueAllTotal,listOfNumbers,byteList,listOfNumber);
-            }
 
+            }
+            List<User> userList = userRepository.findAllById(list);
+            for (User user : userList){
+                Float totalBalance = user.getTotalBalnce() + referanceIdANDAmount.get(user.getReferenceId());
+                System.err.println(totalBalance);
+                System.err.println(user.getTodayReferralBalance());
+                System.err.println( (referanceIdANDAmount.get(user.getReferenceId()) * 0.03));
+                Float todayReferralBalance = (float) (user.getTodayReferralBalance() + (referanceIdANDAmount.get(user.getReferenceId()) * 0.03));
+                user.setTotalBalnce(totalBalance);
+                user.setTodayReferralBalance(todayReferralBalance);
+            }
+        System.err.println("before u saveall");
+            userRepository.saveAll(userList);
+        System.err.println("before u game");
+
+        gameColorNumberRepo.saveAll(gameColorNumbers);
 
         }
 
-
-
-        return finalWonValue;
-
+        //            List<User>
     }
 
-    private Integer getMyWonNumberbyNus(List<NumberDto> listOfNumbers, Integer key) {
-        Integer finalWonNumber = -1;
-        for (NumberDto numberDto : listOfNumbers){
-            if (numberDto.key == key){
-                finalWonNumber = numberDto.value;
-            }
-        }
-        return finalWonNumber;
-    }
 
-    private Integer getResultforFiveZeroNumber(Integer zeroNumberValueAllTotal,
-                                               Integer fiveNumberValueAllTotal,
-                                               List<NumberDto> listOfNumbers,
-                                               List<Integer> byteList,
-                                               List<Integer> listOfNumber) {
-
-        Integer finalWonValue = -1;
-        Integer zeroNumberValue = 0;
-
-        Integer fiveNumberValue = 0;
-        for (NumberDto numberDto : listOfNumbers){
-            if (numberDto.key == zeroNumberValue){
-                zeroNumberValue = numberDto.value;
-            }else if (numberDto.key == fiveNumberValue){
-                fiveNumberValue = numberDto.value;
-            }else if (zeroNumberValue > 0 &&fiveNumberValue > 0 ){
-                break;
-            }
-        }
-
-        for (Integer postionNumbers =0;postionNumbers<byteList.size();postionNumbers++){
-            Integer postionNum = listOfNumber.get(byteList.get(postionNumbers));
-            if (postionNum != zeroNumberValue  && postionNum!= fiveNumberValue && postionNum > zeroNumberValue  && postionNum > fiveNumberValue ){
-                finalWonValue = getMyWonNumberbyNus(listOfNumbers,postionNum);
-                return finalWonValue;
-            }
-        }
-        if (zeroNumberValue == fiveNumberValue){
-            Random random = new Random();
-
-            Integer randomValue = random.nextInt(2);
-            System.out.println("random number is : "+randomValue);
-            if (randomValue == 0){
-                finalWonValue = 0;
-            }else {
-                finalWonValue = 5;
-            }
-        }
-
-        return finalWonValue;
-
-    }
-
-}
