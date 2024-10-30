@@ -240,7 +240,20 @@ public class GameImp implements IGame {
                 colorResult = 103;
             }
             System.err.println(colorResult +" "+numberResult);
-            flag = false;
+            ProfitGame profit = ProfitGame.builder()
+                    .TransactionsDateAndTime(LocalDateTime.now())
+                    .totalAmountColor(0)
+                    .totalAmountNumber(0)
+                    .profitAmountColor(0)
+                    .profitAmountNumber(0)
+                    .period(String.valueOf(getLivePeriodNo().getPeriod()))
+                    .status("SUCCESS")
+                    .sourceOfProfit("GAME")
+                    .build();
+
+            profitRepo.save(profit);
+
+            updateChartTrend(numberResult,colorResult);
         return colorResult +" "+numberResult;
         }
 
