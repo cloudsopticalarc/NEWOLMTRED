@@ -213,8 +213,35 @@ public class GameImp implements IGame {
         Integer eight =gameColorNumberRepo.findByEight(true);
         Integer nine =gameColorNumberRepo.findByNine(true);
 
+        Boolean flag = true;
         // // System.out.println(nine);
+        Integer numberResult = -1;
+        Integer colorResult = -1;
+        //
+        if(zero==null &&
+        one==null &&
+                two==null &&
+                three ==null &&four==null &&
+                five==null &&six==null &&
+                seven==null &&eight==null &&
+                nine==null &&black==null &&
+                yellow==null &&red==null ){
+            Random random = new Random();
 
+            Integer randomValue = random.nextInt(9);
+            // // System.out.println("random number is : "+randomValue);
+            numberResult = randomValue;
+            randomValue = random.nextInt(3);
+            if (randomValue == 0){
+                colorResult = 101;
+            }else if (randomValue == 1){
+                colorResult = 102;
+            }else {
+                colorResult = 103;
+            }
+            flag = false;
+        return colorResult +" "+numberResult;
+        }
 
         List<Integer> listOfNumber = new ArrayList<>();
         List<Integer> listOfColor = new ArrayList<>();
@@ -456,8 +483,8 @@ public class GameImp implements IGame {
 //        // System.out.println(listOfNumbers.get(8).key);
 //        // System.out.println(listOfNumbers.get(9).key);
 
-        Integer numberResult = getResultNumber(listOfNumber,listOfNumbers);
-        Integer colorResult = getResultcolor(listOfColor,listOfColors);
+         numberResult = getResultNumber(listOfNumber,listOfNumbers);
+         colorResult = getResultcolor(listOfColor,listOfColors);
         // System.out.println("Final :"+numberResult + " "+colorResult);
 
         // System.out.println("460");
@@ -688,6 +715,10 @@ public class GameImp implements IGame {
 //                        return finalWonValue;
 //                    }
 //                }
+        if (byteList.size()>0 && (list.get(list.size() - 1) >= zeroNumberValue) && (list.get(list.size() - 1) >= fiveNumberValue)) {
+            finalWonValue = getMyWonNumberbyNus(listOfNumbers, list.get(list.size() - 1));
+            return finalWonValue;
+        }
         if (byteList.size()>0 && (list.get(list.size() - 1) != zeroNumberValue) && (list.get(list.size() - 1) != fiveNumberValue)) {
             finalWonValue = getMyWonNumberbyNus(listOfNumbers, list.get(list.size() - 1));
             return finalWonValue;

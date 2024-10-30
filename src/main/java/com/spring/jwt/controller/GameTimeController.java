@@ -23,7 +23,6 @@ public class GameTimeController {
 
     @Scheduled(fixedDelay = 1000 * 150)
     public ResponseEntity<Long> getRemainingTime() {
-        System.out.println("i am inside of getRemainingTimeHit 0");
 
         Instant now = Instant.now();
         Duration remainingTime = Duration.between(now, gameStartTime.plusSeconds(GAME_DURATION_SECONDS));
@@ -32,13 +31,12 @@ public class GameTimeController {
             gameStartTime = Instant.now();
             remainingTime = Duration.ofSeconds(GAME_DURATION_SECONDS);
         }
-        System.out.println(remainingTime.getSeconds());
+        System.out.println("API inside "+remainingTime.getSeconds());
 
         return ResponseEntity.ok(remainingTime.getSeconds());
     }
     @Scheduled(fixedDelay = 15000)
     public void getRemainingTimeHit() {
-        System.out.println("i am inside of getRemainingTimeHit 1");
         Instant now = Instant.now();
         Duration remainingTime = Duration.between(now, gameStartTime.plusSeconds(GAME_DURATION_SECONDS));
         if (remainingTime.isNegative()) {
@@ -47,9 +45,8 @@ public class GameTimeController {
             remainingTime = Duration.ofSeconds(GAME_DURATION_SECONDS);
         }
         if (remainingTime.getSeconds() <= 15) {
-            System.out.println(remainingTime.getSeconds());
+            System.out.println("inside sheduler"+remainingTime.getSeconds());
             getRemainingTime();
-            System.out.println("i am inside of getRemainingTimeHit 15 sec");
             iGame.makeWinNumber();
 
         }
