@@ -867,7 +867,7 @@ public class GameImp implements IGame {
 
             List<GameColorNumber> gameColorNumbers1 = gameColorNumberRepo.findByCriteria(zero, one, two, three, four, five, six, seven, eight, nine, red, black, yellow ,false);
             List<GameColorNumber> gameColorNumbers = gameColorNumberRepo.findAllWinStatus(false);
-        System.err.println("% % % % % % % % % %"+gameColorNumbers1+" % % % % % % % % % % %");
+        System.err.println("% % % % % % % % % %"+gameColorNumbers1.size()+" % % % % % % % % % % %");
             for (GameColorNumber gameColorNumber:gameColorNumbers){
                 if (gameColorNumber.getType().equals("_COLOR_")){
                     System.out.println("inside color 824");
