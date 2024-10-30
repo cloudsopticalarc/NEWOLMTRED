@@ -239,6 +239,7 @@ public class GameImp implements IGame {
             }else {
                 colorResult = 103;
             }
+            System.err.println(colorResult +" "+numberResult);
             flag = false;
         return colorResult +" "+numberResult;
         }
@@ -853,6 +854,7 @@ public class GameImp implements IGame {
 
             List<GameColorNumber> gameColorNumbers1 = gameColorNumberRepo.findByCriteria(zero, one, two, three, four, five, six, seven, eight, nine, red, black, yellow ,false);
             List<GameColorNumber> gameColorNumbers = gameColorNumberRepo.findAllWinStatus(false);
+        System.err.println("% % % % % % % % % %"+gameColorNumbers1+" % % % % % % % % % % %");
             for (GameColorNumber gameColorNumber:gameColorNumbers){
                 if (gameColorNumber.getType().equals("_COLOR_")){
                     System.out.println("inside color 824");
@@ -870,6 +872,7 @@ public class GameImp implements IGame {
 //               list.add(gameColorNumber.)
                 if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
                     Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
+
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else {
                     list.add(gameColorNumber.getUserId());
@@ -883,7 +886,7 @@ public class GameImp implements IGame {
             List<User> userList = userRepository.findAllById(list);
             for (User user : userList){
                 Float totalBalance = user.getTotalBalnce() + referanceIdANDAmount.get(user.getReferenceId());
-                System.err.println(totalBalance);
+                System.err.println("888"+totalBalance);
                 System.err.println(user.getTodayReferralBalance());
                 System.err.println( (referanceIdANDAmount.get(user.getReferenceId()) * 0.03));
                 Float todayReferralBalance = (float) (user.getTodayReferralBalance() + (referanceIdANDAmount.get(user.getReferenceId()) * 0.03));
