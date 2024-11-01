@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ChartTrendRepo extends JpaRepository<ChartTrend,Integer> {
-    Optional<ChartTrend> findByRunningStatus(String running);
+    List<ChartTrend> findByRunningStatus(String running);
     @Query("SELECT ct FROM ChartTrend ct WHERE ct.runningStatus = :runningStatus")
     List<ChartTrend> findByDoneStatus(@Param("runningStatus") String runningStatus);
 //

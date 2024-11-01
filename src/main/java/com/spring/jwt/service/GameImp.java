@@ -154,13 +154,19 @@ public class GameImp implements IGame {
 
         try {
 
-            ChartTrend chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_").orElseThrow(() -> new RuntimeException("chart treand details not found by id"));
-            chartTrend.setRunningStatus("_DONE_");
-            chartTrend.setWonNumber(wonNumber);
-            chartTrend.setWonColor(wonColor);
+            List<ChartTrend> chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_");
+            Integer size = chartTrend.size();
+            if (size<1){
+                throw new RuntimeException("chart treand details not found by id");
+            }
 
 
-            chartTrendRepo.save(chartTrend);
+            chartTrend.get(size-1).setRunningStatus("_DONE_");
+            chartTrend.get(size-1).setWonNumber(wonNumber);
+            chartTrend.get(size-1).setWonColor(wonColor);
+
+
+            chartTrendRepo.save(chartTrend.get(size-1));
         }catch (RuntimeException e){
              System.err.println(e.getMessage());
         }
@@ -184,13 +190,19 @@ public class GameImp implements IGame {
 
     @Override
     public ChartTrend getLivePeriodNo() {
+
         try {
 
-            ChartTrend chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_").orElseThrow(()->new RuntimeException("invalid running status"));
-            return chartTrend;
-        }catch (RuntimeException e){
-            // System.out.println(e.getMessage());
+            List<ChartTrend> chartTrend = chartTrendRepo.findByRunningStatus("_RUNNING_");
+            Integer size = chartTrend.size();
+            if (size<1){
+                throw new RuntimeException("chart treand details not found by id");
+            }
 
+
+            return chartTrend.get(size-1);
+        }catch (RuntimeException e){
+            System.err.println(e.getMessage());
         }
 
         List<ChartTrend> listOFChartTrend = chartTrendRepo.findAll();
