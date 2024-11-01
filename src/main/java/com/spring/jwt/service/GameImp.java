@@ -531,7 +531,7 @@ public class GameImp implements IGame {
 //
 
         saveNumberWonUserAmount(numberResult,colorResult);
-        // System.out.println("460");
+         System.out.println("534");
                     ProfitGame profit = ProfitGame.builder()
                             .TransactionsDateAndTime(LocalDateTime.now())
                             .totalAmountColor(sumOfColor)
@@ -544,6 +544,7 @@ public class GameImp implements IGame {
                             .build();
 
             profitRepo.save(profit);
+        System.err.println(colorResult +" "+numberResult +"result without condition");
 
             updateChartTrend(numberResult,colorResult);
 
