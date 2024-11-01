@@ -162,7 +162,7 @@ public class GameImp implements IGame {
 
             chartTrendRepo.save(chartTrend);
         }catch (RuntimeException e){
-            // System.out.println(e.getMessage());
+             System.err.println(e.getMessage());
         }
         LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -219,13 +219,14 @@ public class GameImp implements IGame {
         Integer colorResult = -1;
         //
         if(zero==null &&
-        one==null &&
+         one==null &&
                 two==null &&
-                three ==null &&four==null &&
-                five==null &&six==null &&
-                seven==null &&eight==null &&
-                nine==null &&black==null &&
-                yellow==null &&red==null ){
+                three ==null && four==null &&
+                five==null && six==null &&
+                seven==null && eight==null &&
+                nine==null && black==null &&
+                yellow==null && red==null )
+        {
             Random random = new Random();
 
             Integer randomValue = random.nextInt(9);
@@ -254,7 +255,7 @@ public class GameImp implements IGame {
             profitRepo.save(profit);
 
             updateChartTrend(numberResult,colorResult);
-        return colorResult +" "+numberResult;
+         return colorResult +" "+numberResult;
         }
 
         List<Integer> listOfNumber = new ArrayList<>();
@@ -746,7 +747,7 @@ public class GameImp implements IGame {
             Random random = new Random();
 
             Integer randomValue = random.nextInt(2);
-            // // System.out.println("random number is : "+randomValue);
+              // // System.out.println("random number is : "+randomValue);
             if (randomValue == 0){
                 finalWonValue = 0;
             }else {
