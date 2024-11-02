@@ -267,7 +267,7 @@ public class GameImp implements IGame {
             profitRepo.save(profit);
 
             updateChartTrend(numberResult,colorResult);
-         return colorResult +" "+numberResult;
+             return colorResult +" "+numberResult;
         }
 
         List<Integer> listOfNumber = new ArrayList<>();
@@ -911,6 +911,7 @@ public class GameImp implements IGame {
 
             }
             List<User> userList = userRepository.findAllById(list);
+        System.err.println("inside of user save all size "+userList.size());
             for (User user : userList){
                 Float totalBalance = user.getTotalBalnce() + referanceIdANDAmount.get(user.getReferenceId());
                 System.err.println("888"+totalBalance);
