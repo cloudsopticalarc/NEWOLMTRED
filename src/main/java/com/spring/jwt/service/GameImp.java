@@ -953,12 +953,16 @@ public class GameImp implements IGame {
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
 //               list.add(gameColorNumber.)
                 if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
+                    System.err.println("0000000000000000956");
                     Integer amountUpdate=0;
                     if (gameColorNumber.getZero() || gameColorNumber.getFive()){
+                        System.err.println("0000000000000000959");
+
                         amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (amountUpdate)+(amountUpdate * 0.85));
 
                     }else {
+                        System.err.println("0000000000000000966");
 
                          amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
                     }
@@ -966,13 +970,17 @@ public class GameImp implements IGame {
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else {
                     Integer amountUpdate=0;
+                    System.err.println("0000000000000000973");
 
                     list.add(gameColorNumber.getUserId());
                     if (gameColorNumber.getZero() || gameColorNumber.getFive()){
+                        System.err.println("0000000000000000978");
+
                         amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (amountUpdate)+(amountUpdate * 0.85));
 
                     }else {
+                        System.err.println("0000000000000000983");
 
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
                     }
