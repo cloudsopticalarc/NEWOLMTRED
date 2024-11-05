@@ -957,24 +957,32 @@ public class GameImp implements IGame {
                     if(gameColorNumber.getFive() && gameColorNumber.getZero()){
                         amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((amountUpdate)+(amountUpdate * 0.85)));
+                        referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+
                     }else {
 
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
+                        referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+
                     }
 
-                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+                    System.err.println(amountUpdate+"line no 969");
+
                 }else {
                     list.add(gameColorNumber.getUserId());
                     Integer amountUpdate = 0;
                     if(gameColorNumber.getFive() && gameColorNumber.getZero()){
                         amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((amountUpdate)+(amountUpdate * 0.85)));
+                        referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+
                     }else {
 
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
-                    }
+                        referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
 
-                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+                    }
+                    System.err.println(amountUpdate+"line no 984");
 
                 }
 
