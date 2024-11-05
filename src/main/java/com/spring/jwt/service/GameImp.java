@@ -953,12 +953,29 @@ public class GameImp implements IGame {
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
 //               list.add(gameColorNumber.)
                 if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
-                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
+                    Integer amountUpdate=0;
+                    if (gameColorNumber.getZero() || gameColorNumber.getFive()){
+                        amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
+                        amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (amountUpdate)+(amountUpdate * 0.85));
+
+                    }else {
+
+                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
+                    }
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else {
+                    Integer amountUpdate=0;
+
                     list.add(gameColorNumber.getUserId());
-                    Integer amountUpdate = (int) ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85));
+                    if (gameColorNumber.getZero() || gameColorNumber.getFive()){
+                        amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
+                        amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (amountUpdate)+(amountUpdate * 0.85));
+
+                    }else {
+
+                        amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
+                    }
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
 
