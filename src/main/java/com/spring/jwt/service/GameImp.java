@@ -953,7 +953,7 @@ public class GameImp implements IGame {
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
 //               list.add(gameColorNumber.)
                 if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
-                    Integer amountUpdate;
+                    Integer amountUpdate= 0;
                     if(gameColorNumber.getFive() && gameColorNumber.getZero()){
                         amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((amountUpdate)+(amountUpdate * 0.85)));
@@ -965,7 +965,7 @@ public class GameImp implements IGame {
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else {
                     list.add(gameColorNumber.getUserId());
-                    Integer amountUpdate;
+                    Integer amountUpdate = 0;
                     if(gameColorNumber.getFive() && gameColorNumber.getZero()){
                         amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((amountUpdate)+(amountUpdate * 0.85)));
