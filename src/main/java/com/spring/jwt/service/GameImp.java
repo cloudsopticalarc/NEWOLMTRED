@@ -777,11 +777,11 @@ public class GameImp implements IGame {
 //                        return finalWonValue;
 //                    }
 //                }
-        if (byteList.size()>0 && (list.get(list.size() - 1) >= zeroNumberValue) && (list.get(list.size() - 1) >= fiveNumberValue)) {
+        if (!byteList.isEmpty() && (list.get(list.size() - 1) >= zeroNumberValue) && (list.get(list.size() - 1) >= fiveNumberValue)) {
             finalWonValue = getMyWonNumberbyNus(listOfNumbers, list.get(list.size() - 1));
             return finalWonValue;
         }
-        if (byteList.size()>0 && (list.get(list.size() - 1) != zeroNumberValue) && (list.get(list.size() - 1) != fiveNumberValue)) {
+        if (!byteList.isEmpty() && (list.get(list.size() - 1) != zeroNumberValue) && (list.get(list.size() - 1) != fiveNumberValue)) {
             finalWonValue = getMyWonNumberbyNus(listOfNumbers, list.get(list.size() - 1));
             return finalWonValue;
         }
@@ -881,7 +881,6 @@ public class GameImp implements IGame {
 
             List<GameColorNumber> gameColorNumbers1 = new LinkedList<>();
             List<GameColorNumber> gameColorNumbers = gameColorNumberRepo.findAllWinStatus(false);
-        System.err.println("% % % % % % % % % %"+gameColorNumbers1.size()+" % % % % % % % % % % %");
             for (GameColorNumber gameColorNumber:gameColorNumbers){
                 if (gameColorNumber.getType().equals("_NUMBER_")){
                     //numbers//
@@ -947,43 +946,24 @@ public class GameImp implements IGame {
                 }
                 gameColorNumber.setWinStatus(true);
             }
+        System.err.println("% % % % % % % % % %"+gameColorNumbers1.size()+" % % % % % % % % % % %");
+
         System.out.println("list"+gameColorNumbers);
             HashMap <String,Integer> referanceIdANDAmount = new HashMap<>();
             List<Integer> list= new LinkedList<>();
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
 //               list.add(gameColorNumber.)
-                if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
-                    System.err.println("0000000000000000956");
-                    Integer amountUpdate=0;
-                    if (gameColorNumber.getZero() || gameColorNumber.getFive()){
-                        System.err.println("0000000000000000959");
+                if (((gameColorNumber.getType()).equals("_NUMBER_"))&&(gameColorNumber.getZero() ||gameColorNumber.getFive()) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
+                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (((gameColorNumber.getAmount())*0.5)+((gameColorNumber.getAmount()*0.5) * 0.85)));
 
-                        amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
-                        amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (amountUpdate)+(amountUpdate * 0.85));
-
-                    }else {
-                        System.err.println("0000000000000000966");
-
-                         amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
-                    }
+                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+                }else if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
+                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else {
-                    Integer amountUpdate=0;
-                    System.err.println("0000000000000000973");
-
                     list.add(gameColorNumber.getUserId());
-                    if (gameColorNumber.getZero() || gameColorNumber.getFive()){
-                        System.err.println("0000000000000000978");
-
-                        amountUpdate = (int) (gameColorNumber.getAmount() * 0.5);
-                        amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (amountUpdate)+(amountUpdate * 0.85));
-
-                    }else {
-                        System.err.println("0000000000000000983");
-
-                        amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
-                    }
+                    Integer amountUpdate = (int) ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
 
