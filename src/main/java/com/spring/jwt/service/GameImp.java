@@ -555,7 +555,7 @@ public class GameImp implements IGame {
         Integer finalWonNumber = -1;
         for (NumberDto numberDto : listOfColors){
             // // System.out.println(listOfColor.get(0)+ " "+numberDto.key);
-            if (listOfColor.get(0) == numberDto.key){
+            if (listOfColor.get(1) == numberDto.key){
                 finalWonNumber = numberDto.value;
                 break;
             }
@@ -569,16 +569,10 @@ public class GameImp implements IGame {
         for (NumberDto numberDto : list){
 
 //             // System.out.println(numberDto.value+ " "+numberDto.key);
-            if (0 == numberDto.value && type.equals("NUMBER")){
-                sumOfTotalAmount =sumOfTotalAmount +(numberDto.key*2);
-            }else if (5 == numberDto.value && type.equals("NUMBER")){
-                sumOfTotalAmount =sumOfTotalAmount +(numberDto.key*2);
 
-
-            }else {
                 sumOfTotalAmount =sumOfTotalAmount +(numberDto.key);
 
-            }
+
         }
 //        // System.out.println(sumOfTotalAmount);
         return sumOfTotalAmount;
@@ -622,89 +616,129 @@ public class GameImp implements IGame {
 
 
     }
-
     private Integer getResultNumber(List<Integer> listOfNumber,List<NumberDto> listOfNumbers) {
-//        Integer ZeroOrFiveResultNumber = getResultforFiveZeroNumber(listOfNumber);
+
         Integer finalWonValue = -1;
+
 
         Integer sumOfAllNumber = 0;
         List<Integer> byteList = new LinkedList<>();
         for (Integer i : listOfNumber){sumOfAllNumber = sumOfAllNumber+i;}
-//        // System.out.println("423");
-//        Integer twentyPersent = (int) ((0.20) * sumOfAllNumber);
-//        Integer thirtyPersent = (int) ((0.30) * sumOfAllNumber);
-//        Integer FourtyPersent = (int) ((0.40) * sumOfAllNumber);
-//        Integer fiftyPersent  = (int) ((0.50) * sumOfAllNumber);
+//        Integer seventyFive = (int) ((0.75) * sumOfAllNumber);
         Integer fiveNumberValueAllTotal = 1;
         Integer zeroNumberValueAllTotal = 0;
         for (Integer i = 2; i<listOfNumbers.size();i++) {
-            Boolean stopLoopFlag = false;
-
-//            if ((listOfNumbers.get(i).value != 0 && listOfNumbers.get(zeroNumberValueAllTotal).key != listOfNumber.get(i)) &&
-//                    (listOfNumbers.get(i).value != 5 && listOfNumbers.get(fiveNumberValueAllTotal).key != listOfNumber.get(i))) {
-//                // // System.out.println("ok");
-//                }
-//
-//        else{
-//                // // System.out.println("not ok");
-//            }
-//            if ((listOfNumbers.get(i).value != 0 && listOfNumbers.get(zeroNumberValueAllTotal).key != listOfNumber.get(i)) &&
-//                    (listOfNumbers.get(i).value != 5 && listOfNumbers.get(fiveNumberValueAllTotal).key != listOfNumber.get(i))) {
-            // System.out.println(listOfNumbers.size()+" "+i);
-
             Integer allNineMultValue = (listOfNumbers.get(i)).key*10;
-            // System.out.println("444");
-//                // System.err.println(allNineMultValue +" "+(listOfNumber.get(i))*10);
             Integer sumOfOtherNineNumber =0;
-
-            for (Integer j = 2; j<listOfNumbers.size();j++) {
-
-                if (i!=j && (listOfNumbers.get(j).value != 0 ) &&
-                        (listOfNumbers.get(j).value != 5 )){
-                    sumOfOtherNineNumber = sumOfOtherNineNumber +listOfNumber.get(j);
-                        // System.out.println(sumOfOtherNineNumber+" " +listOfNumber.get(j)+" "+j);
-                }else if (j == i){
-                     // System.out.println("im inside i == j");
-                }
+            for (Integer j = 0; j<listOfNumbers.size();j++) {
+                if (j!=i) {sumOfOtherNineNumber = sumOfOtherNineNumber + listOfNumbers.get(j).key;}
             }
+            Integer seventyFive = (int) ((0.75) * sumOfOtherNineNumber);
 
-            sumOfOtherNineNumber=sumOfOtherNineNumber+listOfNumbers.get(zeroNumberValueAllTotal).key+listOfNumbers.get(fiveNumberValueAllTotal).key;
-            // System.err.println(sumOfOtherNineNumber +" "+allNineMultValue);
-
-
-            Integer fiftyPersent = (int) ((0.50) * sumOfOtherNineNumber);
-            Integer seventyFivePersent = (int) ((0.75) * sumOfOtherNineNumber);
-//                 // System.out.println(fiftyPersent +"  "+seventyFivePersent );
-//                // System.err.println(allNineMultValue +"all sum"+ sumOfOtherNineNumber);
-//                // System.err.println((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent));
-            // System.err.println( (allNineMultValue < sumOfOtherNineNumber && ((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent))));
-
-            if (allNineMultValue < sumOfOtherNineNumber && ((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent))){
-                finalWonValue =  getMyWonNumberbyNus(listOfNumbers,listOfNumber.get(i));
-                stopLoopFlag = true;
-                break;
-            } else if (allNineMultValue > 0 && allNineMultValue <= fiftyPersent) {
-                byteList.add(i);
-
+            if (allNineMultValue <= seventyFive ){
+                finalWonValue = listOfNumbers.get(i).value;
             }
-            if (stopLoopFlag)break;
-//                 // System.out.println(allNineMultValue +" "+ fiftyPersent);
-//            }
-            // System.out.println("byte      "+byteList.size());
-
-
-
         }
         if (finalWonValue == -1){
-            finalWonValue = getResultforFiveZeroNumber(zeroNumberValueAllTotal,fiveNumberValueAllTotal,listOfNumbers,byteList,listOfNumber);
+
+            for (Integer i = 0; i<2;i++) {
+                Integer allNineMultValue = (int) (listOfNumbers.get(i).key * 0.5) *10;
+                Integer sumOfOtherNineNumber =0;
+                for (Integer j = 0; j<listOfNumbers.size();j++) {
+                    if (j!=i) {sumOfOtherNineNumber = sumOfOtherNineNumber + listOfNumbers.get(j).key;}
+                }
+                Integer seventyFive = (int) ((0.75) * sumOfOtherNineNumber);
+
+                if (allNineMultValue <= seventyFive ){
+                    finalWonValue = listOfNumbers.get(i).value;
+                }
+            }
         }
-
-
-
         return finalWonValue;
 
-    }
 
+
+
+
+//        Integer ZeroOrFiveResultNumber = getResultforFiveZeroNumber(listOfNumber);
+//        Integer finalWonValue = -1;
+//
+//        Integer sumOfAllNumber = 0;
+//        List<Integer> byteList = new LinkedList<>();
+//        for (Integer i : listOfNumber){sumOfAllNumber = sumOfAllNumber+i;}
+////        // System.out.println("423");
+////        Integer twentyPersent = (int) ((0.20) * sumOfAllNumber);
+////        Integer thirtyPersent = (int) ((0.30) * sumOfAllNumber);
+////        Integer FourtyPersent = (int) ((0.40) * sumOfAllNumber);
+////        Integer fiftyPersent  = (int) ((0.50) * sumOfAllNumber);
+//        Integer fiveNumberValueAllTotal = 1;
+//        Integer zeroNumberValueAllTotal = 0;
+//        for (Integer i = 2; i<listOfNumbers.size();i++) {
+//            Boolean stopLoopFlag = false;
+//
+////            if ((listOfNumbers.get(i).value != 0 && listOfNumbers.get(zeroNumberValueAllTotal).key != listOfNumber.get(i)) &&
+////                    (listOfNumbers.get(i).value != 5 && listOfNumbers.get(fiveNumberValueAllTotal).key != listOfNumber.get(i))) {
+////                // // System.out.println("ok");
+////                }
+////
+////        else{
+////                // // System.out.println("not ok");
+////            }
+////            if ((listOfNumbers.get(i).value != 0 && listOfNumbers.get(zeroNumberValueAllTotal).key != listOfNumber.get(i)) &&
+////                    (listOfNumbers.get(i).value != 5 && listOfNumbers.get(fiveNumberValueAllTotal).key != listOfNumber.get(i))) {
+//            // System.out.println(listOfNumbers.size()+" "+i);
+//
+//            // System.out.println("444");
+////                // System.err.println(allNineMultValue +" "+(listOfNumber.get(i))*10);
+//            Integer sumOfOtherNineNumber =0;
+//
+//            for (Integer j = 2; j<listOfNumbers.size();j++) {
+//
+//                if (i!=j && (listOfNumbers.get(j).value != 0 ) &&
+//                        (listOfNumbers.get(j).value != 5 )){
+//                    sumOfOtherNineNumber = sumOfOtherNineNumber +listOfNumber.get(j);
+//                    // System.out.println(sumOfOtherNineNumber+" " +listOfNumber.get(j)+" "+j);
+//                }else if (j == i){
+//                    // System.out.println("im inside i == j");
+//                }
+//            }
+//
+//            sumOfOtherNineNumber=sumOfOtherNineNumber+listOfNumbers.get(zeroNumberValueAllTotal).key+listOfNumbers.get(fiveNumberValueAllTotal).key;
+//            // System.err.println(sumOfOtherNineNumber +" "+allNineMultValue);
+//
+//
+//            Integer fiftyPersent = (int) ((0.50) * sumOfOtherNineNumber);
+//            Integer seventyFivePersent = (int) ((0.75) * sumOfOtherNineNumber);
+////                 // System.out.println(fiftyPersent +"  "+seventyFivePersent );
+////                // System.err.println(allNineMultValue +"all sum"+ sumOfOtherNineNumber);
+////                // System.err.println((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent));
+//            // System.err.println( (allNineMultValue < sumOfOtherNineNumber && ((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent))));
+//
+//            if (allNineMultValue < sumOfOtherNineNumber && ((allNineMultValue >= fiftyPersent) && (allNineMultValue <= seventyFivePersent))){
+//                finalWonValue =  getMyWonNumberbyNus(listOfNumbers,listOfNumber.get(i));
+//                stopLoopFlag = true;
+//                break;
+//            } else if (allNineMultValue > 0 && allNineMultValue <= fiftyPersent) {
+//                byteList.add(i);
+//
+//            }
+//            if (stopLoopFlag)break;
+////                 // System.out.println(allNineMultValue +" "+ fiftyPersent);
+////            }
+//            // System.out.println("byte      "+byteList.size());
+//
+//
+//
+//        }
+//        if (finalWonValue == -1){
+//            finalWonValue = getResultforFiveZeroNumber(zeroNumberValueAllTotal,fiveNumberValueAllTotal,listOfNumbers,byteList,listOfNumber);
+//        }
+//
+//
+//
+//        return finalWonValue;
+
+    }
     private Integer getMyWonNumberbyNus( List<NumberDto> listOfNumbers,Integer key) {
         Integer finalWonNumber = -3;
 
@@ -844,46 +878,67 @@ public class GameImp implements IGame {
         }
 
 
-        //numbers//
-        if (number==0) {
-            zero =true;
-        }
-        if (number==1) {
-            one =true;
 
-        }
-        if (number==2) {
-            two =true;
-        }
-        if (number==3) {
-         three =true;
-        }
-        if (number==4) {
-            four = true;
-        }
-        if (number==5) {
-          five =true;
-        }
-
-        if (number==6) {
-            six =true;
-                 }
-        if (number==7) {
-            seven =true;
-        }
-        if (number==8) {
-        nine =true;
-        }
-
-        if (number==9) {
-         nine=true;
-        }
-
-            List<GameColorNumber> gameColorNumbers1 = gameColorNumberRepo.findByCriteria(zero, one, two, three, four, five, six, seven, eight, nine, red, black, yellow ,false);
+            List<GameColorNumber> gameColorNumbers1 = new LinkedList<>();
             List<GameColorNumber> gameColorNumbers = gameColorNumberRepo.findAllWinStatus(false);
         System.err.println("% % % % % % % % % %"+gameColorNumbers1.size()+" % % % % % % % % % % %");
             for (GameColorNumber gameColorNumber:gameColorNumbers){
-                if (gameColorNumber.getType().equals("_COLOR_")){
+                if (gameColorNumber.getType().equals("_NUMBER_")){
+                    //numbers//
+                    if (gameColorNumber.getZero()) {
+                        gameColorNumbers1.add(gameColorNumber);
+                    }
+                    else if (gameColorNumber.getOne()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getTwo()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getThree()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getFour()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getFive()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getSix()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getSeven()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getEight()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getNine()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+
+                }
+                else if (gameColorNumber.getType().equals("_COLOR_")){
+                    if (gameColorNumber.getBlack()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getRed()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    else if (gameColorNumber.getYellow()) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
                     System.out.println("inside color 824");
                     gameColorNumber.setWonNumber(color);
                 }else {
