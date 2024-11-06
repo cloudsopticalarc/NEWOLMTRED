@@ -862,20 +862,54 @@ public class GameImp implements IGame {
 
         if (101==color) {
             yellow =true;
-
         }
-        if (102==color) {
+        else if (102==color) {
            red=true;
-
-
-
         }
-        if (103==color) {
+        else if (103==color) {
             black = true;
+        }
 
-
+        //numbers//
+        if (number == 0) {
+            zero = true;
+        }
+        else if (number == 1) {
+            one = true;
 
         }
+        else if (number == 2) {
+            two = true;
+
+        }
+        else if (number == 3) {
+            three = true;
+
+        }
+        else if (number == 4) {
+            four= true;
+
+        }
+        else if (number == 5) {
+            five = true;
+
+        }
+        else if (number == 6) {
+            six = true;
+
+        }
+        else if (number == 7) {
+            seven = true;
+
+        }
+        else if (number == 8) {
+            eight = true;
+
+        }
+        else if (number == 9) {
+            nine = true;
+        }
+
 
 
 
@@ -884,66 +918,66 @@ public class GameImp implements IGame {
             for (GameColorNumber gameColorNumber:gameColorNumbers){
                 if (gameColorNumber.getType().equals("_NUMBER_")){
                     //numbers//
-                    if (gameColorNumber.getZero()) {
+                    if (gameColorNumber.getZero() && zero) {
                         gameColorNumbers1.add(gameColorNumber);
                     }
-                    else if (gameColorNumber.getOne()) {
-                        gameColorNumbers1.add(gameColorNumber);
-
-                    }
-                    else if (gameColorNumber.getTwo()) {
+                    else if (gameColorNumber.getOne() && one) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getThree()) {
+                    else if (gameColorNumber.getTwo() && two) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getFour()) {
+                    else if (gameColorNumber.getThree() && three) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getFive()) {
+                    else if (gameColorNumber.getFour() && four) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getSix()) {
+                    else if (gameColorNumber.getFive() && five) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getSeven()) {
+                    else if (gameColorNumber.getSix() && six) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getEight()) {
+                    else if (gameColorNumber.getSeven() && seven) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getNine()) {
+                    else if (gameColorNumber.getEight() && eight) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
+                    else if (gameColorNumber.getNine() && nine) {
+                        gameColorNumbers1.add(gameColorNumber);
+
+                    }
+                    gameColorNumber.setWonNumber(number);
 
                 }
                 else if (gameColorNumber.getType().equals("_COLOR_")){
-                    if (gameColorNumber.getBlack()) {
+                    if (gameColorNumber.getBlack() && black) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getRed()) {
+                    else if (gameColorNumber.getRed() && red) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
-                    else if (gameColorNumber.getYellow()) {
+                    else if (gameColorNumber.getYellow() && yellow) {
                         gameColorNumbers1.add(gameColorNumber);
 
                     }
                     System.out.println("inside color 824");
                     gameColorNumber.setWonNumber(color);
-                }else {
-
-                    gameColorNumber.setWonNumber(number);
                 }
+
+
                 gameColorNumber.setWinStatus(true);
             }
         System.err.println("% % % % % % % % % %"+gameColorNumbers1.size()+" % % % % % % % % % % %");
@@ -952,23 +986,33 @@ public class GameImp implements IGame {
             HashMap <String,Integer> referanceIdANDAmount = new HashMap<>();
             List<Integer> list= new LinkedList<>();
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
-                System.err.println("hashmap entity : AMOUNT "+referanceIdANDAmount.get(gameColorNumber.getUserReferenceId())+" KEY : "+gameColorNumber.getUserReferenceId());
 //               list.add(gameColorNumber.)
                 if (((gameColorNumber.getType()).equals("_NUMBER_"))&&(gameColorNumber.getZero() ||gameColorNumber.getFive()) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
-                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (((gameColorNumber.getAmount())*0.5)+((gameColorNumber.getAmount()*0.5) * 0.85)));
+                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (((gameColorNumber.getAmount())*0.5)+((gameColorNumber.getAmount()*0.5) * 9)));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
-                }else if (referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
+                }else if (((gameColorNumber.getType()).equals("_NUMBER_")) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
+                    Integer amountUpdate = referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 9));
+
+                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+                }else if (((gameColorNumber.getType()).equals("_COLOR_")) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
                     Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85)));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
-                }else {
+                }else if ((gameColorNumber.getType()).equals("_COLOR_")){
                     list.add(gameColorNumber.getUserId());
                     Integer amountUpdate = (int) ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 0.85));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
 
+                }else if (((gameColorNumber.getType()).equals("_NUMBER_"))){
+                    list.add(gameColorNumber.getUserId());
+                    Integer amountUpdate = gameColorNumber.getAmount() +(gameColorNumber.getAmount() * 9);
+
+                    referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
+
                 }
+                System.err.println("hashmap entity : AMOUNT "+referanceIdANDAmount.get(gameColorNumber.getUserReferenceId())+" KEY : "+gameColorNumber.getUserReferenceId());
 
             }
             List<User> userList = userRepository.findAllById(list);
