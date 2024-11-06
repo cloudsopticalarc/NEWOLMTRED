@@ -952,6 +952,7 @@ public class GameImp implements IGame {
             HashMap <String,Integer> referanceIdANDAmount = new HashMap<>();
             List<Integer> list= new LinkedList<>();
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
+                System.err.println("hashmap entity : AMOUNT "+referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())+" KEY : "+gameColorNumber.getUserReferenceId());
 //               list.add(gameColorNumber.)
                 if (((gameColorNumber.getType()).equals("_NUMBER_"))&&(gameColorNumber.getZero() ||gameColorNumber.getFive()) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
                     Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (((gameColorNumber.getAmount())*0.5)+((gameColorNumber.getAmount()*0.5) * 0.85)));
