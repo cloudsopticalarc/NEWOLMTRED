@@ -988,11 +988,11 @@ public class GameImp implements IGame {
             for (GameColorNumber gameColorNumber:gameColorNumbers1){
 //               list.add(gameColorNumber.)
                 if (((gameColorNumber.getType()).equals("_NUMBER_"))&&(gameColorNumber.getZero() ||gameColorNumber.getFive()) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
-                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (((gameColorNumber.getAmount())*0.5)+((gameColorNumber.getAmount()*0.5) * 9)));
+                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + (((gameColorNumber.getAmount())*0.5)+((gameColorNumber.getAmount()*0.5) * 4.5)));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else if (((gameColorNumber.getType()).equals("_NUMBER_")) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
-                    Integer amountUpdate = referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 9));
+                    Integer amountUpdate = (int) (referanceIdANDAmount.get(gameColorNumber.getUserReferenceId()) + ((gameColorNumber.getAmount())+(gameColorNumber.getAmount() * 8.5)));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
                 }else if (((gameColorNumber.getType()).equals("_COLOR_")) && referanceIdANDAmount.containsKey(gameColorNumber.getUserReferenceId())){
@@ -1007,7 +1007,7 @@ public class GameImp implements IGame {
 
                 }else if (((gameColorNumber.getType()).equals("_NUMBER_"))){
                     list.add(gameColorNumber.getUserId());
-                    Integer amountUpdate = gameColorNumber.getAmount() +(gameColorNumber.getAmount() * 9);
+                    Integer amountUpdate = (int) (gameColorNumber.getAmount() +(gameColorNumber.getAmount() * 8.5));
 
                     referanceIdANDAmount.put(gameColorNumber.getUserReferenceId(),amountUpdate);
 
