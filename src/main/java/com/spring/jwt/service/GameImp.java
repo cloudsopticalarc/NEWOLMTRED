@@ -95,7 +95,7 @@ public class GameImp implements IGame {
 
         }else if (colorOrNumber.equals("_ZERO_")){
             gameColorNumber.setType("_NUMBER_");
-            gameColorNumber.setOne(true);
+            gameColorNumber.setZero(true);
 
         }else if (colorOrNumber.equals("_RED_")){
             gameColorNumber.setType("_COLOR_");
