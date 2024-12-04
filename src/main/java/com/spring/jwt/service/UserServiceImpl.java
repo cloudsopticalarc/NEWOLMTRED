@@ -128,12 +128,15 @@ public class UserServiceImpl implements UserService {
 
 
             Float transactionFees = amount*0.05f;
-//          BELOW CODE FOR ADMIN MEAN SENDER THAT MONEY WILL DEDUCTED
+//            String[] parts = senderDetails.getReferenceId().split("_");
+//            if()
+
+            //          BELOW CODE FOR ADMIN MEAN SENDER THAT MONEY WILL DEDUCTED
 
             if((senderDetails.getTotalBalnce())<(amount+transactionFees))
-                senderDetails.setTotalBalnce((amount+transactionFees)-(senderDetails.getTotalBalnce()));
+                senderDetails.setTotalBalnce((amount)-(senderDetails.getTotalBalnce()));
             else if ((amount+transactionFees)<(senderDetails.getTotalBalnce()))
-                senderDetails.setTotalBalnce((senderDetails.getTotalBalnce())-(amount+transactionFees));
+                senderDetails.setTotalBalnce((senderDetails.getTotalBalnce())-(amount));
 
 //           BELOW CODE FOR TANSACTION FEES
 //            Float totalBalanceAfterTransactionFees = amount-transactionFees;
@@ -183,7 +186,14 @@ public class UserServiceImpl implements UserService {
         LocalDateTime localDateTime = LocalDateTime.now();
         String UUID = generateTransactionId();
         if(receiverDetails.getTotalBalnce() >= amount){
-            Float transactionFees = amount*0.10f;
+
+
+
+            Float transactionFees = amount*0.15f;
+            String[] parts = senderDetails.getReferenceId().split("_");
+            if(parts[1].equals("SA")){
+                transactionFees = amount*0.13f;
+            }
             Float totalBalanceAfterTransactionFees = amount-transactionFees;
 
 
@@ -237,10 +247,16 @@ public class UserServiceImpl implements UserService {
         User receiverDetails = userRepository.findByReferenceId(withdrawTransactionDetails.getWithdrawReceiverId()).orElseThrow(()->new RuntimeException("get reference name not found by id"));
 
         if(receiverDetails.getTotalBalnce() >= withdrawTransactionDetails.getTransactionAmount()){
-            Float transactionFees = (withdrawTransactionDetails.getTransactionAmount())*0.05f;
+            Float transactionFee = 0.15f;
+            String[] parts = senderDetails.getReferenceId().split("_");
+            if(parts[1].equals("SA")){
+                transactionFee = 0.13f;
+            }
+
+            Float transactionFees = (withdrawTransactionDetails.getTransactionAmount()) * transactionFee;
             Float totalBalanceAfterTransactionFees = (withdrawTransactionDetails.getTransactionAmount())-transactionFees;
 
-            senderDetails.setTotalBalnce((senderDetails.getTotalBalnce())+((withdrawTransactionDetails.getTransactionAmount())-(withdrawTransactionDetails.getTransactionFees()-transactionFees)));
+            senderDetails.setTotalBalnce((senderDetails.getTotalBalnce())+((withdrawTransactionDetails.getTransactionAmount())-(withdrawTransactionDetails.getTransactionFees())));
 
 
               receiverDetails.setTotalBalnce((receiverDetails.getTotalBalnce()) - (withdrawTransactionDetails.getTransactionAmount()));

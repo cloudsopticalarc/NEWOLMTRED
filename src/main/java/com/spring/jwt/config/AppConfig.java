@@ -147,7 +147,7 @@ public class AppConfig {
         };
     }
     private List<String> getAllowedOrigins() {
-        return Arrays.asList("http://localhost:5173", "https://color-tredo.vercel.app/");
+        return Arrays.asList("http://localhost:5173", "https://color-tredo.vercel.app/","https://ok.opticalarc.in/");
     }
 
 

@@ -22,7 +22,8 @@ public class AccountController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<BaseResponseDTO> register(@RequestBody RegisterDto registerDto){
+    public ResponseEntity<BaseResponseDTO> register(@RequestBody RegisterDto registerDto)
+    {
 
         try {
            BaseResponseDTO response= userService.registerAccount(registerDto);
@@ -34,5 +35,5 @@ public class AccountController {
         }catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponseDTO("Unsuccessful", e.getMessage()));
         }
-        }
+    }
 }

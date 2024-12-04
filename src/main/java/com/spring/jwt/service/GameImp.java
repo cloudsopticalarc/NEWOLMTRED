@@ -498,6 +498,7 @@ public class GameImp implements IGame {
 
 //        Collections.sort(listOfNumber);
         Collections.sort(listOfColor);
+        System.out.println(listOfColor);
 //
         // // System.out.println(listOfNumber);
         // // System.out.println(listOfColor);
@@ -554,8 +555,9 @@ public class GameImp implements IGame {
     private Integer getResultcolor(List<Integer> listOfColor,List<NumberDto> listOfColors) {
         Integer finalWonNumber = -1;
         for (NumberDto numberDto : listOfColors){
+
             // // System.out.println(listOfColor.get(0)+ " "+numberDto.key);
-            if (listOfColor.get(1) == numberDto.key){
+            if (numberDto.key == listOfColor.get(1)){
                 finalWonNumber = numberDto.value;
                 break;
             }
@@ -591,7 +593,7 @@ public class GameImp implements IGame {
             }
         }
         // System.out.println(sumOfTotalAmount);
-        sumOfTotalAmount = ((sumOfTotalAmount) + (sumOfTotalAmount * 9));
+        sumOfTotalAmount = (int) ((sumOfTotalAmount) + (sumOfTotalAmount * 8.5f));
         // System.out.println(sumOfTotalAmount);
         return sumOfTotalAmount;
 
@@ -620,6 +622,19 @@ public class GameImp implements IGame {
 
         Integer finalWonValue = -1;
 
+        if(listOfNumbers.get(2).key==(listOfNumbers.get(1).key * 0.5) &&
+                listOfNumbers.get(2).key==(listOfNumbers.get(0).key * 0.5) &&
+                listOfNumbers.get(2).key==listOfNumbers.get(3).key &&
+                listOfNumbers.get(2).key==listOfNumbers.get(4).key &&
+                listOfNumbers.get(2).key==listOfNumbers.get(5).key &&
+                listOfNumbers.get(2).key==listOfNumbers.get(6).key &&
+                listOfNumbers.get(2).key==listOfNumbers.get(7).key &&
+                listOfNumbers.get(2).key==listOfNumbers.get(8).key){
+            Random random = new Random();
+
+            Integer randomValue = random.nextInt(9);
+        return randomValue;
+        }
 
         Integer sumOfAllNumber = 0;
         List<Integer> byteList = new LinkedList<>();
